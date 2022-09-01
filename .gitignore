@@ -1,0 +1,16 @@
+# Terraform
+./terraform-provider-libvirt
+.terraform/
+./*.tf
+*.tfstate
+*.tfstate.backup
+*.test
+*.cov
+terraform-provider-libvirt
+.terraform.tfstate.lock.info
+.kube/minikube.yml
+*.plain.yml
+*.log
+venv/
+
+*.age
