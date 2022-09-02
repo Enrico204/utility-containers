@@ -11,7 +11,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #for tag in android-lint android-sdk argocd eslint ffvnc flutter-sdk golang hugo-netlify mariadb-dbmate platformio postgres-dbmate qbittorrent; do
-for tag in golang hugo-netlify mariadb-dbmate openapi platformio postgres-dbmate qbittorrent; do
+for tag in argocd eslint ffvnc golang hugo-netlify mariadb-dbmate openapi platformio postgres-dbmate qbittorrent; do
     pushd "$tag"
     VERSION=$(make version)
     set +e
