@@ -19,6 +19,8 @@ Short description of content:
 * `platformio`: PlatformIO + `espressif8266` package
 * `postgres-dbmate`: Postgres container image bundled with `dbmate`
 * `qbittorrent`: QBitTorrent container image (no X11, only web UI)
+* `go-tensorflow-lite`: Go compiler with tensorflow headers and shared objects.
+  See the specific `README.md` for more info.
 
 All images are also published pre-built in Docker Hub, e.g.
 `hub.docker.com/enrico204/adminer`.

@@ -10,7 +10,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-for tag in adminer android-lint android-sdk argocd eslint ffvnc flutter-sdk golang hugo-netlify mariadb-dbmate openapi platformio postgres-dbmate qbittorrent; do
+for tag in adminer android-lint android-sdk argocd eslint ffvnc flutter-sdk go-tensorflow-lite golang hugo-netlify mariadb-dbmate openapi platformio postgres-dbmate qbittorrent; do
     pushd "$tag"
     VERSION=$(make version)
     set +e

@@ -1,0 +1,32 @@
+FROM debian:buster AS builder
+
+RUN apt-get update && apt-get install -y build-essential openjdk-11-jdk-headless python3 zip unzip wget libatomic1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
+    # \
+    #&& update-java-alternatives -s java-1.11.0-openjdk-armhf
+
+WORKDIR /src
+
+RUN wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.5.0.tar.gz \
+    && tar xf v2.5.0.tar.gz \
+    && rm v2.5.0.tar.gz
+
+RUN apt-get install -y git-core python3-distutils python3-numpy
+
+# CMAKE
+RUN echo "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/backports.list && apt-get update
+RUN apt-get install -y -t buster-backports cmake
+
+RUN mkdir /src/tflite_build
+WORKDIR /src/tflite_build
+
+RUN cmake ../tensorflow-2.5.0/tensorflow/lite/c
+RUN cmake --build .
+
+FROM docker.io/library/golang:1.16
+
+COPY --from=builder /src/tflite_build/libtensorflowlite_c.so /usr/local/lib/
+COPY --from=builder /src/tensorflow-2.5.0/tensorflow/lite/c/*.h /usr/local/include/tensorflow/lite/c/
+COPY --from=builder /src/tensorflow-2.5.0/tensorflow/lite/*.h /usr/local/include/tensorflow/lite/
+
+RUN ldconfig

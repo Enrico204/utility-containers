@@ -1,0 +1,22 @@
+FROM bazel:latest
+
+RUN apt-get update && apt-get install -y build-essential openjdk-11-jdk-headless python3 zip unzip wget libatomic1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
+    && update-java-alternatives -s java-1.11.0-openjdk-armhf
+
+WORKDIR /src
+
+RUN wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.3.0.tar.gz \
+    && tar xf v2.3.0.tar.gz \
+    && rm v2.3.0.tar.gz
+
+WORKDIR /src/tensorflow-2.3.0
+
+RUN apt-get install -y git python3-numpy python3-distutils
+
+RUN ./configure
+
+#RUN bazel build --config=elinux_armhf -c opt //tensorflow/lite/c:libtensorflowlite_c.so
+#RUN bazel build --config opt --config monolithic //tensorflow/lite:libtensorflowlite.so
+RUN bazel build --config opt --config monolithic //tensorflow/lite/c:libtensorflowlite_c.so
+

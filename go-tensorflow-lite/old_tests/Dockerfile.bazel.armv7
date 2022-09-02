@@ -1,0 +1,21 @@
+FROM debian:buster AS builder
+
+# Another way is to use this: https://github.com/koenvervloesem/bazel-on-arm
+
+WORKDIR /src/
+
+RUN apt-get update && apt-get install -y build-essential openjdk-11-jdk-headless python3 zip unzip wget libatomic1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
+RUN update-java-alternatives -s java-1.11.0-openjdk-armhf
+
+RUN wget https://github.com/bazelbuild/bazel/releases/download/3.7.2/bazel-3.7.2-dist.zip -O bazel-3.7.2-dist.zip \
+    && unzip bazel-3.7.2-dist.zip \
+    && rm bazel-3.7.2-dist.zip
+
+COPY patches/jni_armhf.patch .
+RUN patch -s -p1 < jni_armhf.patch
+
+RUN env EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk" bash ./compile.sh
+
+FROM debian:buster
+COPY --from=builder /src/output/bazel /usr/local/bin/bazel

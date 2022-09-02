@@ -1,0 +1,44 @@
+#FROM debian:buster
+FROM bazel:latest
+
+RUN apt-get update && apt-get install -y build-essential openjdk-11-jdk-headless python3 zip unzip wget libatomic1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
+    && update-java-alternatives -s java-1.11.0-openjdk-armhf
+
+WORKDIR /src
+
+RUN wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.3.0.tar.gz \
+    && tar xf v2.3.0.tar.gz \
+    && rm v2.3.0.tar.gz
+
+RUN apt-get install -y git-core python3-distutils python3-numpy
+WORKDIR /src/tensorflow-2.3.0
+RUN ./configure
+
+#RUN bazel test --config=noaws --host_javabase=@local_jdk//:jdk --local_ram_resources=6144 --config opt //tensorflow/tools/lib_package:libtensorflow_test
+#RUN bazel build --config=noaws --host_javabase=@local_jdk//:jdk --local_ram_resources=6144 --config opt //tensorflow/tools/lib_package:libtensorflow
+
+RUN bazel --host_jvm_args=-Xmx6144m --host_jvm_args=-Xms2048m build \
+    --config=noaws \
+    --config opt --verbose_failures --local_resources 6144,1.0,1.0 \
+    --copt=-mfpu=neon-vfpv4 \
+    --copt=-ftree-vectorize \
+    --copt=-funsafe-math-optimizations \
+    --copt=-ftree-loop-vectorize \
+    --copt=-fomit-frame-pointer \
+    --copt=-DRASPBERRY_PI \
+    --host_copt=-mfpu=neon-vfpv4 \
+    --host_copt=-ftree-vectorize \
+    --host_copt=-funsafe-math-optimizations \
+    --host_copt=-ftree-loop-vectorize \
+    --host_copt=-fomit-frame-pointer \
+    --host_copt=-DRASPBERRY_PI \
+    //tensorflow/tools/lib_package:libtensorflow \
+
+# CMAKE
+#RUN echo "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/backports.list && apt-get update
+#RUN apt-get install -y -t buster-backports cmake
+#RUN mkdir /src/tflite_build
+#WORKDIR /src/tflite_build
+#RUN cmake ../tensorflow-2.5.0/tensorflow/c
+#RUN cmake --build . -j 2

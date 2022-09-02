@@ -1,4 +1,4 @@
-FROM debian:bullseye AS builder
+FROM docker.io/library/debian:bullseye AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -16,7 +16,7 @@ COPY config.hidebar.h debian/local/
 RUN fakeroot debian/rules binary
 
 
-FROM debian:bullseye-slim
+FROM docker.io/library/debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
