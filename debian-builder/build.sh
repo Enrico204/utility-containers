@@ -2,7 +2,6 @@
 set -o pipefail
 
 VERSION=0
-apt_proxy="http://172.17.0.1:3142"
 
 for distro in stretch; do # buster bullseye; do
 	IMAGE_PATH="$BASEURL/debian-builder:$distro-v$VERSION"
