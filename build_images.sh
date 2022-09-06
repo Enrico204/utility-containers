@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eo pipefail
+set -o pipefail
 
 export BASEURL="hub.netsplit.it/utilities"
 export DOCKERHUB_BASEURL="docker.io/enrico204"
@@ -11,24 +11,27 @@ if [ $? -ne 0 ]; then
 fi
 
 for tag in adminer android-lint android-sdk argocd eslint ffvnc flutter-sdk go-tensorflow-lite golang hugo-netlify mariadb-dbmate openapi platformio postgres-dbmate qbittorrent; do
-    pushd "$tag"
+    cd "$tag"
     VERSION=$(make version)
-    set +e
     skopeo inspect "docker://$BASEURL/$tag:$VERSION" > /dev/null 2>&1
     if [ $? -ne 0 ]; then
-        set -e
         # Image does not exists
+        set -e
         IMAGE_PATH="$BASEURL/$tag" make docker push
+        set +e
     fi
-    set -e
 
     # Mirror container in Docker Hub
-    set +e
     skopeo inspect "docker://$DOCKERHUB_BASEURL/$tag:$VERSION" > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         set -e
-        skopeo copy --all "docker://$BASEURL/$tag:$VERSION" "docker://$DOCKERHUB_BASEURL/$tag:$VERSION"
+        buildah manifest push --all --format=docker "$BASEURL/$tag:$VERSION" "docker://$DOCKERHUB_BASEURL/$tag:$VERSION"
+        set +e
     fi
-    set -e
-    popd
+    cd ..
 done
+
+# Debian builders
+cd debian-builder
+bash build.sh
+cd ..
