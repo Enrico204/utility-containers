@@ -24,7 +24,7 @@ for distro in stretch buster bullseye; do
 	fi
 
 	# ARMel specific
-	skopeo --override-arch armel --override-variant v7 inspect "docker://$IMAGE_PATH-armel" > /dev/null 2>&1
+	skopeo --override-arch arm --override-variant v7 inspect "docker://$IMAGE_PATH-armel" > /dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		set -e
 		# Image does not exists
@@ -47,7 +47,7 @@ for distro in stretch buster bullseye; do
 	fi
 
 	# Mirror container in Docker Hub (ARMel version)
-	skopeo --override-arch armel --override-variant v7 inspect "docker://$DOCKERHUB_IMAGE_PATH-armel" > /dev/null 2>&1
+	skopeo --override-arch arm --override-variant v7 inspect "docker://$DOCKERHUB_IMAGE_PATH-armel" > /dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		set -e
 		buildah manifest push --all --format=docker $IMAGE_PATH-armel "docker://$DOCKERHUB_IMAGE_PATH-armel"
