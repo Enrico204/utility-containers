@@ -7,10 +7,10 @@ for distro in stretch; do # buster bullseye; do
 	IMAGE_PATH="$BASEURL/debian-builder:$distro-v$VERSION"
 	DOCKERHUB_IMAGE_PATH="$DOCKERHUB_BASEURL/debian-builder:$distro-v$VERSION"
 
-    skopeo inspect "docker://$IMAGE_PATH" > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        set -e
-        # Image does not exists
+	skopeo inspect "docker://$IMAGE_PATH" > /dev/null 2>&1
+	if [ $? -ne 0 ]; then
+		set -e
+		# Image does not exists
 		buildah manifest rm containers-storage:$IMAGE_PATH || true > /dev/null
 		buildah manifest create $IMAGE_PATH
 
@@ -25,16 +25,16 @@ for distro in stretch; do # buster bullseye; do
 
 		buildah manifest push --all --format=docker $IMAGE_PATH docker://$IMAGE_PATH
 		buildah manifest push --all --format=docker $IMAGE_PATH-armel docker://$IMAGE_PATH-armel
-        set +e
-    fi
+		set +e
+	fi
 
 	# Mirror container in Docker Hub
-    skopeo inspect "docker://$DOCKERHUB_IMAGE_PATH" > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        set -e
+	skopeo inspect "docker://$DOCKERHUB_IMAGE_PATH" > /dev/null 2>&1
+	if [ $? -ne 0 ]; then
+		set -e
 		buildah manifest push --all --format=docker $IMAGE_PATH "docker://$DOCKERHUB_IMAGE_PATH"
 		buildah manifest push --all --format=docker $IMAGE_PATH-armel "docker://$DOCKERHUB_IMAGE_PATH-armel"
-        set +e
-    fi
+		set +e
+	fi
 done
 
