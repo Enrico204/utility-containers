@@ -3,7 +3,7 @@ set -o pipefail
 
 VERSION=0
 
-for distro in stretch buster bullseye; do
+for distro in stretch buster bullseye bookworm; do
 	IMAGE_PATH="$BASEURL/debian-builder:$distro-v$VERSION"
 	DOCKERHUB_IMAGE_PATH="$DOCKERHUB_BASEURL/debian-builder:$distro-v$VERSION"
 
