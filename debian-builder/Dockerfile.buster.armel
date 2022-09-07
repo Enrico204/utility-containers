@@ -1,4 +1,4 @@
-FROM docker.io/arm32v5/debian:buster
+FROM docker.io/library/debian:buster
 
 COPY buster.list /etc/apt/sources.list
 COPY preload.sh /usr/local/sbin/,preload.sh
@@ -7,6 +7,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG apt_proxy
 RUN echo "Acquire::http::Proxy \"$apt_proxy\";" > /etc/apt/apt.conf.d/99proxy && \
     apt-get update && \
+    apt-get install -y --no-install-recommends -t buster-backports gnupg && \
+    apt-get install -y --no-install-recommends zlib1g=1:1.2.11.dfsg-1 --allow-downgrades && \
     apt-get install -y --no-install-recommends lsb-release build-essential fakeroot debhelper \
         wget curl jq equivs gettext-base ca-certificates unzip \
         devscripts debian-keyring libdistro-info-perl quilt libx11-dev libxinerama-dev libxft-dev libfreetype6-dev pkg-config \
