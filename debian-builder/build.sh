@@ -32,7 +32,7 @@ for distro in stretch buster bullseye; do
 		buildah manifest create $IMAGE_PATH-armel
 
 		BUILDAH_ARGS="--build-arg apt_proxy=$apt_proxy -f Dockerfile.$distro.armel --manifest $IMAGE_PATH-armel"
-		buildah bud ${BUILDAH_ARGS} --arch arm   --variant v7
+		buildah bud ${BUILDAH_ARGS} --arch arm   --variant v5
 
 		buildah manifest push --all --format=docker $IMAGE_PATH-armel docker://$IMAGE_PATH-armel
 		set +e
