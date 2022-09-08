@@ -1,14 +1,15 @@
-GO_VERSION=1.18.5
-VERSION=${GO_VERSION}-2
+HUGO_VERSION=0.102.3
+PANDOC_VERSION=2.19.2-1
+VERSION=${HUGO_VERSION}-${PANDOC_VERSION}-1
 
-BUILDAH_ARGS=--build-arg GO_VERSION=${GO_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
+BUILDAH_ARGS=--build-arg HUGO_VERSION=${HUGO_VERSION} --build-arg PANDOC_VERSION=${PANDOC_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
 	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true
 	buildah manifest create ${IMAGE_PATH}:${VERSION}
 
 	buildah bud ${BUILDAH_ARGS} --arch amd64
-	buildah bud ${BUILDAH_ARGS} --arch arm64 --variant v8
+#	buildah bud ${BUILDAH_ARGS} --arch arm64 --variant v8
 
 push:
 	buildah manifest push --all --format=docker ${IMAGE_PATH}:${VERSION} docker://${IMAGE_PATH}:${VERSION}

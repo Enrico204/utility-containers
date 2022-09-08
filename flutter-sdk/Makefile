@@ -4,7 +4,7 @@ VERSION=${FLUTTER_VERSION}-3
 BUILDAH_ARGS=--build-arg FLUTTER_VERSION=${FLUTTER_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
-	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} || true > /dev/null
+	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true
 	buildah manifest create ${IMAGE_PATH}:${VERSION}
 
 	buildah bud ${BUILDAH_ARGS} --arch amd64

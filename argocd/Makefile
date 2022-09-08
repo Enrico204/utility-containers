@@ -7,7 +7,7 @@ VERSION=${ARGOCD_VERSION}-${SOPS_VERSION}-${HELM_SECRETS_VERSION}-${KUBECTL_VERS
 BUILDAH_ARGS=--build-arg ARGOCD_VERSION=${ARGOCD_VERSION} --build-arg SOPS_VERSION=${SOPS_VERSION} --build-arg HELM_SECRETS_VERSION=${HELM_SECRETS_VERSION} --build-arg KUBECTL_VERSION=${KUBECTL_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
-	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} || true > /dev/null
+	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true
 	buildah manifest create ${IMAGE_PATH}:${VERSION}
 
 	buildah bud ${BUILDAH_ARGS} --arch amd64

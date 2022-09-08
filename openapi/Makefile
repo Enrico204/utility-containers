@@ -4,7 +4,7 @@ VERSION=${OPENAPI_VERSION}-2
 BUILDAH_ARGS=--build-arg OPENAPI_VERSION=${OPENAPI_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
-	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} || true > /dev/null
+	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true
 	buildah manifest create ${IMAGE_PATH}:${VERSION}
 
 	buildah bud ${BUILDAH_ARGS} --arch amd64
