@@ -11,3 +11,7 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -qy hugo=${HUGO_VERSION} pandoc=${PANDOC_VERSION} plantuml=1:${PLANTUML_VERSION} \
     texlive-full texlive-fonts-extra texlive-latex-extra mcli rsync openssh-client git \
     && rm -rf /var/cache/apt/* /etc/apt/sources.list.d/netsplit.list
+
+COPY 09-texlive-fonts.conf /etc/fonts/conf.d/09-texlive-fonts.conf
+
+RUN fc-cache -fsv
