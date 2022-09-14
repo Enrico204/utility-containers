@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -xeou pipefail
 
+# This script updates versions of source images or tools in each container
+# directory
+
 docker_version() {
     skopeo inspect "docker://$1" | jq -r ".RepoTags | .[]" | grep -E '^v?[0-9\.]+$' | tr -d 'v' | grep -vE 'pre$' | sort -V | tail -n 1
 }

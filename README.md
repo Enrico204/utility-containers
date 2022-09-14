@@ -1,6 +1,8 @@
 This repository contains customized container images.
 
-Short description of content:
+Public repository available at: https://gitlab.com/Enrico204/utility-containers
+
+Short description of images:
 * `adminer`: a version which uses `php-fpm` and `lighttpd`
 * `android-lint`: Android/Java linters
 * `android-sdk`: Android SDK
@@ -30,7 +32,7 @@ Short description of content:
 All images are also published pre-built in Docker Hub, e.g.
 `hub.docker.com/enrico204/adminer`.
 
-### Build using buildah-builder
+### Build everything using buildah-builder
 
 ```sh
 podman run -it --rm --privileged \
