@@ -1,5 +1,5 @@
-GO_VERSION=1.18.5
-TF_VERSION=2.5.0
+GO_VERSION=$(shell cat GO.version)
+TF_VERSION=$(shell cat TENSORFLOW.version)
 VERSION=${GO_VERSION}-tf${TF_VERSION}-1
 
 BUILDAH_ARGS=--build-arg GO_VERSION=${GO_VERSION} --build-arg TF_VERSION=${TF_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}

@@ -1,4 +1,4 @@
-HUGO_VERSION=0.102.3
+HUGO_VERSION=$(shell cat HUGO.version)
 VERSION=${HUGO_VERSION}-1
 
 BUILDAH_ARGS=--build-arg HUGO_VERSION=${HUGO_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}

@@ -1,8 +1,7 @@
-POSTGRES_VERSION=$(shell cat POSTGRES.version)
-DBMATE_VERSION=$(shell cat DBMATE.version)
-VERSION=${POSTGRES_VERSION}-${DBMATE_VERSION}-1
+BUILDAH_VERSION=$(shell cat BUILDAH.version)
+VERSION=${BUILDAH_VERSION}-1
 
-BUILDAH_ARGS=--build-arg POSTGRES_VERSION=${POSTGRES_VERSION} --build-arg DBMATE_VERSION=${DBMATE_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
+BUILDAH_ARGS=--build-arg BUILDAH_VERSION=${BUILDAH_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
 	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true

@@ -1,7 +1,7 @@
 ARG ADMINER_VERSION
 FROM docker.io/library/adminer:${ADMINER_VERSION}-fastcgi
 
-ARG LIGHTTP_PORT
+ENV LIGHTTP_PORT=7070
 
 USER root
 RUN apk add lighttpd
