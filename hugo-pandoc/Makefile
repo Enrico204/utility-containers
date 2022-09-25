@@ -1,9 +1,9 @@
 HUGO_VERSION=$(shell cat HUGO.version)
 PANDOC_VERSION=$(shell cat PANDOC.version)-1
 PLANTUML_VERSION=$(shell cat PLANTUML.version)
-VERSION=${HUGO_VERSION}-${PANDOC_VERSION}-${PLANTUML_VERSION}-3
+VERSION=${HUGO_VERSION}-${PANDOC_VERSION}-${PLANTUML_VERSION}-4
 
-BUILDAH_ARGS=--build-arg HUGO_VERSION=${HUGO_VERSION} --build-arg PANDOC_VERSION=${PANDOC_VERSION} --build-arg PLANTUML_VERSION=${PLANTUML_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
+BUILDAH_ARGS=--build-arg HUGO_VERSION=${HUGO_VERSION} --build-arg PANDOC_VERSION=${PANDOC_VERSION} --build-arg PLANTUML_VERSION=${PLANTUML_VERSION} --build-arg APT_PROXY=${APT_PROXY} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
 	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true
