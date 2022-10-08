@@ -44,3 +44,14 @@ podman run -it --rm --privileged \
   hub.netsplit.it/utilities/buildah-builder:1.27.0-1 \
   /bin/bash -x /src/build_images.sh
 ```
+
+Use docker-login credentials only:
+
+```sh
+podman run -it --rm --privileged \
+  -v "$(pwd):/src/" \
+  -v "$HOME/.docker/config.json:/root/.docker/config.json:ro" \
+  --workdir /src/ \
+  hub.netsplit.it/utilities/buildah-builder:1.27.0-1 \
+  /bin/bash -x /src/build_images.sh
+```
