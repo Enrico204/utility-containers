@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -o pipefail
 
-VERSION=0
+VERSION=1
 
 for distro in stretch buster bullseye bookworm; do
 	IMAGE_PATH="$BASEURL/debian-builder:$distro-v$VERSION"
