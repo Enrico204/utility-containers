@@ -1,18 +1,17 @@
 FROM docker.io/library/debian:bullseye
-
-COPY bullseye.list /etc/apt/sources.list
-COPY preload.sh /usr/local/sbin/,preload.sh
-
-ENV DEBIAN_FRONTEND=noninteractive
+ARG apt_mirror
 ARG apt_proxy
-RUN echo "Acquire::http::Proxy \"$apt_proxy\";" > /etc/apt/apt.conf.d/99proxy && \
+
+COPY *.sh /tmp/
+RUN bash /tmp/setup-mirror.sh && \
     apt-get update && \
-    apt-get install -y --no-install-recommends lsb-release dkms build-essential fakeroot debhelper \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends lsb-release dkms build-essential fakeroot debhelper \
         wget curl jq equivs gettext-base ca-certificates unzip \
         devscripts debian-keyring libdistro-info-perl quilt libx11-dev libxinerama-dev libxft-dev libfreetype6-dev pkg-config \
         git libfuse-dev libopus-dev libpam0g-dev nasm libjpeg-dev libssl-dev libx11-dev libxfixes-dev libxrandr-dev systemd && \
     touch /etc/dkms/no-autoinstall && \
-    bash /usr/local/sbin/,preload.sh && \
-    rm /etc/apt/apt.conf.d/99proxy
+    bash /tmp/preload.sh && \
+    bash /tmp/setup-mirror.sh sysprep && \
+    rm /tmp/*
 
 RUN touch /etc/dkms/no-autoinstall

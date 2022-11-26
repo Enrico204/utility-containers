@@ -3,8 +3,7 @@ set -o pipefail
 
 cd $(dirname $0)
 
-export BASEURL="hub.netsplit.it/utilities"
-export DOCKERHUB_BASEURL="docker.io/enrico204"
+. vars.sh
 
 command -v skopeo
 if [ $? -ne 0 ]; then
@@ -32,8 +31,3 @@ for tag in adminer android-lint android-sdk argocd buildah-builder eslint ffvnc 
     fi
     cd ..
 done
-
-# Debian builders
-cd debian-builder
-bash build.sh
-cd ..
