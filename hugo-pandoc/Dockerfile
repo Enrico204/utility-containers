@@ -6,9 +6,9 @@ COPY setup-mirror.sh /tmp/
 ENV DEBIAN_FRONTEND=noninteractive
 
 # First we install LaTeX, so we can re-use cached layers
-RUN bash /tmp/setup-mirror.sh &&
+RUN bash /tmp/setup-mirror.sh && \
     apt-get update && \
-    apt-get install --no-install-recommends -qy texlive-full texlive-fonts-extra texlive-latex-extra mcli rsync \
+    apt-get install --no-install-recommends -qy texlive-full texlive-fonts-extra texlive-latex-extra rsync \
     openssh-client git ca-certificates && \
     rm -rf /var/cache/apt/*
 
@@ -18,7 +18,7 @@ ARG PLANTUML_VERSION
 # Then we install hugo, pandoc and plantuml
 RUN /bin/bash -c 'echo "deb [trusted=yes] https://deb.netsplit.it/bullseye ./" > /etc/apt/sources.list.d/netsplit.list' && \
     apt-get update && \
-    apt-get install --no-install-recommends -qy hugo=${HUGO_VERSION} pandoc=${PANDOC_VERSION} plantuml=1:${PLANTUML_VERSION} && \
+    apt-get install --no-install-recommends -qy mcli hugo=${HUGO_VERSION} pandoc=${PANDOC_VERSION} plantuml=1:${PLANTUML_VERSION} && \
     bash /tmp/setup-mirror.sh sysprep && \
     rm -rf /tmp/* /var/cache/apt/* /etc/apt/sources.list.d/netsplit.list
 

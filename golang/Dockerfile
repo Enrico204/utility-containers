@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y upx-ucl zip ca-certificates tzdata jq curl && \
     rm -rf /var/cache/apt/* && \
-    useradd --home /app/ -M appuser && \
+    useradd --home /app/ appuser && \
     wget https://www.apple.com/certificateauthority/AppleISTCA2G1.cer -O /tmp/AppleISTCA2G1.cer && \
     openssl x509 -inform der -in /tmp/AppleISTCA2G1.cer -out /usr/local/share/ca-certificates/AppleISTCA2G1.crt && \
     rm /tmp/AppleISTCA2G1.cer && \
