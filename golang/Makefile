@@ -1,5 +1,5 @@
 GO_VERSION=$(shell cat GO.version)
-VERSION=${GO_VERSION}-3
+VERSION=${GO_VERSION}-6
 
 BUILDAH_ARGS=--build-arg GO_VERSION=${GO_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
