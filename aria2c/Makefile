@@ -1,6 +1,6 @@
-VERSION=2
+VERSION=1
 
-BUILDAH_ARGS=--build-arg VERSION=${VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
+BUILDAH_ARGS=-f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
 	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true

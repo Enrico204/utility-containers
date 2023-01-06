@@ -7,4 +7,6 @@ VOLUME /store/
 
 EXPOSE 8080
 
-CMD [ "/bin/sh", "-c", "echo yes | qbittorrent-nox --save-path=/store/ --profile=/store/.cfg" ]
+USER 1000
+
+CMD [ "/bin/sh", "-c", "echo yes | qbittorrent-nox --save-path=/store/downloads --profile=/store/.cfg" ]

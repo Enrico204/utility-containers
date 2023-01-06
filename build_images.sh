@@ -11,7 +11,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-for tag in adminer android-lint android-sdk argocd buildah-builder eslint ffvnc flutter-sdk go-tensorflow-lite golang hugo-netlify hugo-pandoc mariadb-dbmate openapi platformio postgres-dbmate qbittorrent; do
+for tag in adminer android-lint android-sdk argocd aria2c aria2c-webui buildah-builder eslint ffvnc flutter-sdk go-tensorflow-lite golang hugo-netlify hugo-pandoc mariadb-dbmate openapi platformio postgres-dbmate qbittorrent; do
     cd "$tag"
     VERSION=$(make version)
     skopeo inspect "docker://$BASEURL/$tag:$VERSION" > /dev/null 2>&1
