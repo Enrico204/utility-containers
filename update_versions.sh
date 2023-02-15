@@ -43,3 +43,5 @@ docker_version docker.io/openapitools/openapi-generator-cli > openapi/OPENAPI.ve
 
 cp mariadb-dbmate/DBMATE.version postgres-dbmate/DBMATE.version
 docker_version docker.io/library/postgres > postgres-dbmate/POSTGRES.version
+
+cp mariadb-dbmate/MARIADB.version mariadb-ldap/MARIADB.version
