@@ -41,7 +41,7 @@ RUN apt-get update && \
     rm /tmp/AppleISTCA2G1.cer && \
     update-ca-certificates && \
     go install github.com/psampaz/go-mod-outdated@v0.8.0 && \
-    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.48.0 && \
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.51.1 && \
     go install github.com/google/go-licenses@v1.2.1
 
 WORKDIR /usr/share/zoneinfo
