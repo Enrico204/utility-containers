@@ -17,8 +17,8 @@ else
         cat > /etc/apt/sources.list <<EOF
 deb $apt_mirror/debian/ bullseye main contrib non-free
 deb $apt_mirror/debian-security bullseye-security main contrib non-free
-deb $apt_mirror/debian-updates/ bullseye-updates main contrib non-free
-#deb $apt_mirror/debian-backports/ bullseye-backports main contrib non-free
+deb $apt_mirror/debian/ bullseye-updates main contrib non-free
+#deb $apt_mirror/debian/ bullseye-backports main contrib non-free
 EOF
     fi
 fi

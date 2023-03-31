@@ -41,7 +41,7 @@ podman run -it --rm --privileged \
   -v "$HOME/.docker/config.json:/root/.docker/config.json:ro" \
   -e "REGISTRY_AUTH_FILE=/etc/containers/auth.json" \
   --workdir /src/ \
-  hub.netsplit.it/utilities/buildah-builder:1.29.1-1 \
+  hub.netsplit.it/utilities/buildah-builder:1.29.1-2 \
   /bin/bash -x /src/build_images.sh
 ```
 
@@ -52,6 +52,6 @@ podman run -it --rm --privileged \
   -v "$(pwd):/src/" \
   -v "$HOME/.docker/config.json:/root/.docker/config.json:ro" \
   --workdir /src/ \
-  hub.netsplit.it/utilities/buildah-builder:1.29.1-1 \
+  hub.netsplit.it/utilities/buildah-builder:1.29.1-2 \
   /bin/bash -x /src/build_images.sh
 ```
