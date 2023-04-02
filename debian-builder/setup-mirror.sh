@@ -3,7 +3,7 @@ set -eou pipefail
 
 . /etc/os-release
 
-rm /etc/apt/sources.list
+rm -f /etc/apt/sources.list
 
 if [ "${1:-}" == "sysprep" ]; then
     # Remove proxy
@@ -19,8 +19,8 @@ else
         cat > /etc/apt/sources.list <<EOF
 deb $apt_mirror/debian/ $VERSION_CODENAME main contrib non-free
 deb $apt_mirror/debian-security $VERSION_CODENAME-security main contrib non-free
-deb $apt_mirror/debian-updates/ $VERSION_CODENAME-updates main contrib non-free
-deb $apt_mirror/debian-backports/ $VERSION_CODENAME-backports main contrib non-free
+deb $apt_mirror/debian/ $VERSION_CODENAME-updates main contrib non-free
+deb $apt_mirror/debian/ $VERSION_CODENAME-backports main contrib non-free
 EOF
     fi
 fi
@@ -47,7 +47,7 @@ EOF
 deb http://deb.debian.org/debian/ bullseye main non-free contrib
 deb http://security.debian.org/debian-security bullseye-security main contrib non-free
 deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
-#deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free
+deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free
 EOF
         ;;
     bookworm)
@@ -55,7 +55,7 @@ EOF
 deb http://deb.debian.org/debian/ bookworm main non-free contrib
 deb http://security.debian.org/debian-security bookworm-security main contrib non-free
 deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free
-#deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free
+deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free
 EOF
         ;;
     *)

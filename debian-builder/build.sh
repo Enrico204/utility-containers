@@ -13,10 +13,10 @@ fi
 
 DISTROS=${1:-}
 if [ "$DISTROS" == "" ]; then
-	DISTROS="stretch buster bullseye bookworm"
+	DISTROS="buster bullseye bookworm"
 fi
 
-VERSION=1
+VERSION=2
 
 for distro in $DISTROS; do
 	IMAGE_PATH="$BASEURL/debian-builder:$distro-v$VERSION"
