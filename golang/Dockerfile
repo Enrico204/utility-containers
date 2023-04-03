@@ -14,7 +14,8 @@ RUN apt-get update && \
     wget https://www.apple.com/certificateauthority/AppleISTCA2G1.cer -O /tmp/AppleISTCA2G1.cer && \
     openssl x509 -inform der -in /tmp/AppleISTCA2G1.cer -out /usr/local/share/ca-certificates/AppleISTCA2G1.crt && \
     rm /tmp/AppleISTCA2G1.cer && \
-    update-ca-certificates
+    update-ca-certificates && \
+    git config --global --add safe.directory "*"
 
 # Pack zoneinfo for Go timezone
 WORKDIR /usr/share/zoneinfo
