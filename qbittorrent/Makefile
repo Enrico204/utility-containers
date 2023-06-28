@@ -1,4 +1,4 @@
-VERSION=2
+VERSION=3
 
 BUILDAH_ARGS=--build-arg VERSION=${VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 

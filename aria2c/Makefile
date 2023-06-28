@@ -1,4 +1,4 @@
-VERSION=1
+VERSION=2
 
 BUILDAH_ARGS=-f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
@@ -7,7 +7,7 @@ docker:
 	buildah manifest create ${IMAGE_PATH}:${VERSION}
 
 	buildah bud ${BUILDAH_ARGS} --arch amd64
-	buildah bud ${BUILDAH_ARGS} --arch arm64 --variant v8
+#	buildah bud ${BUILDAH_ARGS} --arch arm64 --variant v8
 
 push:
 	buildah manifest push --all --format=docker ${IMAGE_PATH}:${VERSION} docker://${IMAGE_PATH}:${VERSION}
