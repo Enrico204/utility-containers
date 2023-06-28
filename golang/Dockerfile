@@ -8,7 +8,7 @@ ENV GOOS linux
 # Basic dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get install -y upx-ucl zip ca-certificates tzdata jq curl libsqlite3-0 libsqlite3-dev && \
+    apt-get install -y zip ca-certificates tzdata jq curl libsqlite3-0 libsqlite3-dev && \
     rm -rf /var/cache/apt/* && \
     useradd --home /app/ -m appuser && \
     wget https://www.apple.com/certificateauthority/AppleISTCA2G1.cer -O /tmp/AppleISTCA2G1.cer && \

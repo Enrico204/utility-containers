@@ -18,7 +18,7 @@ Short description of images:
 * `flutter-sdk`: Flutter SDK
 * `go-tensorflow-lite`: Go compiler with tensorflow headers and shared objects.
   See the specific `README.md` for more info.
-* `golang`: Go container images with UPX, default `ca-certificates` (with the
+* `golang`: Go container images with default `ca-certificates` (with the
   addition of the Apple certificate for push servers) and `tzdata`, `jq`,
   `curl`, `go-mod-outdated`, `golangci-lint` and `go-licenses`.
 * `hugo-netlify`: GoHugo, netlify-cli and MinIO/S3 `mc` client
