@@ -11,7 +11,7 @@ if ! command -v skopeo; then
     exit 1
 fi
 
-IMAGES="android-lint android-sdk aria2c aria2c-webui buildah-builder eslint ffvnc golang hugo-pandoc mariadb-dbmate mediamtx openapi platformio postgres-dbmate qbittorrent rsyslog"
+IMAGES="android-lint android-sdk aria2c aria2c-webui buildah-builder eslint ffvnc flutter-sdk golang hugo-pandoc mariadb-dbmate mediamtx openapi platformio postgres-dbmate qbittorrent rsyslog"
 
 if [ "$1" != "" ]; then
     IMAGES="$1"

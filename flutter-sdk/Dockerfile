@@ -1,7 +1,10 @@
-FROM hub.netsplit.it/utilities/android-sdk:3
+FROM hub.netsplit.it/utilities/android-sdk:4
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y zip unzip xz-utils git-core curl && rm -rf /var/cache/apt/*
+RUN apt-get update -yq && \
+    apt-get install -yq zip unzip xz-utils git-core curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ARG FLUTTER_VERSION
 

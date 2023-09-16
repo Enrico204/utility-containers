@@ -1,6 +1,13 @@
-VERSION=3
+CMDLINE_TOOLS=10406996
+BUILD_TOOLS=34.0.0
+ANDROID_SDK=33
+VERSION=4
 
-BUILDAH_ARGS=--build-arg VERSION=${VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
+BUILDAH_ARGS=--build-arg BUILD_TOOLS=${BUILD_TOOLS} \
+	--build-arg CMDLINE_TOOLS=${CMDLINE_TOOLS} \
+	--build-arg ANDROID_SDK=${ANDROID_SDK} \
+	--build-arg VERSION=${VERSION} \
+	-f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
 	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true
