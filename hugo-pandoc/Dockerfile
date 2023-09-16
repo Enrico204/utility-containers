@@ -1,4 +1,4 @@
-FROM docker.io/library/debian:bullseye-slim
+FROM docker.io/library/debian:bookworm-slim
 ARG apt_mirror
 ARG apt_proxy
 
@@ -16,7 +16,8 @@ ARG HUGO_VERSION
 ARG PANDOC_VERSION
 ARG PLANTUML_VERSION
 # Then we install hugo, pandoc and plantuml
-RUN /bin/bash -c 'echo "deb [trusted=yes] https://deb.netsplit.it/bullseye ./" > /etc/apt/sources.list.d/netsplit.list' && \
+RUN /bin/bash -c 'echo "deb [trusted=yes] https://deb.netsplit.it/bookworm ./" > /etc/apt/sources.list.d/netsplit.list' && \
+    /bin/bash -c 'echo "deb [trusted=yes] https://deb.netsplit.it/selfcontained ./" >> /etc/apt/sources.list.d/netsplit.list' && \
     apt-get update && \
     apt-get install --no-install-recommends -qy mcli hugo=${HUGO_VERSION} pandoc=${PANDOC_VERSION} plantuml=1:${PLANTUML_VERSION} && \
     bash /tmp/setup-mirror.sh sysprep && \

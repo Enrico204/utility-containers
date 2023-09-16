@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eou pipefail
 
-rm /etc/apt/sources.list
+rm -f /etc/apt/sources.list
 
 if [ "${1:-}" == "sysprep" ]; then
     # Remove proxy

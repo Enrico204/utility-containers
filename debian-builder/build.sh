@@ -13,7 +13,7 @@ fi
 
 DISTROS=${1:-}
 if [ "$DISTROS" == "" ]; then
-	DISTROS="buster bullseye bookworm"
+	DISTROS="bullseye bookworm"
 fi
 
 VERSION=2

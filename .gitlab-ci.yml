@@ -5,7 +5,7 @@ build:
   tags:
     - docker-build
   stage: build
-  image: docker.io/enrico204/buildah-builder:1.27.0-1
+  image: docker.io/enrico204/buildah-builder:1.31.0-2
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
   before_script:
