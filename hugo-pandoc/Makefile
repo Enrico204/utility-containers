@@ -1,6 +1,6 @@
 HUGO_VERSION=$(shell cat HUGO.version)
-PANDOC_VERSION=$(shell cat PANDOC.version | tr ':' '.')
-PLANTUML_VERSION=$(shell cat PLANTUML.version)
+PANDOC_VERSION=$(shell cat PANDOC.version)
+PLANTUML_VERSION=$(shell cat PLANTUML.version | tr ':' '.')
 VERSION=${HUGO_VERSION}-${PANDOC_VERSION}-${PLANTUML_VERSION}-4
 
 BUILDAH_ARGS=--build-arg HUGO_VERSION=${HUGO_VERSION} --build-arg PANDOC_VERSION=${PANDOC_VERSION} --build-arg PLANTUML_VERSION=${PLANTUML_VERSION} --build-arg apt_proxy=${apt_proxy} --build-arg apt_mirror=${apt_mirror} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
