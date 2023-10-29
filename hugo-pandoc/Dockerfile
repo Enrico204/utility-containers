@@ -19,7 +19,7 @@ ARG PLANTUML_VERSION
 RUN /bin/bash -c 'echo "deb [trusted=yes] https://deb.netsplit.it/bookworm ./" > /etc/apt/sources.list.d/netsplit.list' && \
     /bin/bash -c 'echo "deb [trusted=yes] https://deb.netsplit.it/selfcontained ./" >> /etc/apt/sources.list.d/netsplit.list' && \
     apt-get update && \
-    apt-get install --no-install-recommends -qy mcli hugo=${HUGO_VERSION} pandoc=${PANDOC_VERSION} plantuml=1:${PLANTUML_VERSION} && \
+    apt-get install --no-install-recommends -qy mcli hugo=${HUGO_VERSION} pandoc=${PANDOC_VERSION} plantuml=${PLANTUML_VERSION} && \
     bash /tmp/setup-mirror.sh sysprep && \
     rm -rf /tmp/* /var/cache/apt/* /etc/apt/sources.list.d/netsplit.list
 

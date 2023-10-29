@@ -1,5 +1,5 @@
 HUGO_VERSION=$(shell cat HUGO.version)
-PANDOC_VERSION=$(shell cat PANDOC.version)-1
+PANDOC_VERSION=$(shell cat PANDOC.version | tr ':' '.')
 PLANTUML_VERSION=$(shell cat PLANTUML.version)
 VERSION=${HUGO_VERSION}-${PANDOC_VERSION}-${PLANTUML_VERSION}-4
 
