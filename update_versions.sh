@@ -30,14 +30,9 @@ github_tag flutter/flutter > flutter-sdk/FLUTTER.version
 
 docker_version docker.io/library/golang > golang/GO.version
 
-netsplit_repo_version selfcontained hugo amd64 > hugo-pandoc/HUGO.version
-#github_version gohugoio/hugo > hugo-pandoc/HUGO.version
-#cp hugo-pandoc/HUGO.version hugo-netlify/HUGO.version
-
-#github_version jgm/pandoc > hugo-pandoc/PANDOC.version
-netsplit_repo_version selfcontained pandoc amd64 > hugo-pandoc/PANDOC.version
-#github_version plantuml/plantuml > hugo-pandoc/PLANTUML.version
-netsplit_repo_version selfcontained plantuml all > hugo-pandoc/PLANTUML.version
+# netsplit_repo_version selfcontained hugo amd64 > hugo-pandoc/HUGO.version
+# netsplit_repo_version selfcontained pandoc amd64 > hugo-pandoc/PANDOC.version
+# netsplit_repo_version selfcontained plantuml all > hugo-pandoc/PLANTUML.version
 
 docker_version docker.io/openapitools/openapi-generator-cli > openapi/OPENAPI.version
 
