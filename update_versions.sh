@@ -38,3 +38,5 @@ docker_version docker.io/openapitools/openapi-generator-cli > openapi/OPENAPI.ve
 
 github_version amacneil/dbmate > postgres-dbmate/DBMATE.version
 docker_version docker.io/library/postgres > postgres-dbmate/POSTGRES.version
+
+github_version aptible/supercronic > dmarc-analyzer/SUPERCRONIC.version
