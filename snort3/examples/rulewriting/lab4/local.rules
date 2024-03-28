@@ -1,0 +1,23 @@
+alert http (
+	msg:"SERVER-WEBAPP Quest KACE System Management Appliance download_agent_installer.php command injection attempt";
+	flow:to_server,established;
+	http_uri:path;
+	content:"/common/download_agent_installer.php",nocase;
+	http_uri:query;
+	regex:"(^|&)(orgid|version)=[^&]*?([\x60\x3b\x7c\x23]|[\x3c\x3e\x24]\x28)",nocase;
+	reference:cve,2018-11138;
+	classtype:web-application-attack;
+	sid:1;
+)
+alert http (
+	msg:"SERVER-WEBAPP Quest KACE System Management Appliance download_agent_installer.php command injection attempt";
+	flow:to_server,established;
+	http_uri:path;
+	content:"/common/download_agent_installer.php",nocase;
+	http_raw_uri:query;
+	content:"26"; http_raw_uri; \
+	regex:"(^|&)(orgid|version)=[^&]*?%(25)?26",nocase; \
+	reference:cve,2018-11138; \
+	classtype:web-application-attack; \
+	sid:2; \
+)

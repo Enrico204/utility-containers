@@ -1,0 +1,13 @@
+d ( stack="eth:ip4:tcp" )
+
+a ( syn )
+b ( syn, ack )
+a ( ack )
+
+a ( ack, data="GET /hello HTTP/1.1|d a d a|" )
+b ( ack, data="HTTP/1.1 200 OK|d a|Content-Length: 5|d a d a|world" )
+
+a ( fin )
+b ( fin, ack )
+a ( ack )
+

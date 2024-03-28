@@ -1,0 +1,7 @@
+alert http (
+	msg:"SERVER-WEBAPP Trend Micro SPS command injection attempt";
+	flow:to_server,established;
+	reference:cve,2016-6267;
+	classtype:web-application-attack;
+	sid:1;
+)

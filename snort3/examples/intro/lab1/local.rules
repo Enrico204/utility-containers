@@ -1,0 +1,7 @@
+alert http (
+	msg:"Hello World";
+	flow:to_server,established;
+	http_uri;
+	content:"/hello",nocase;
+	sid:1;
+)
