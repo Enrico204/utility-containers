@@ -1,0 +1,272 @@
+# Contributor: Duncan Bellamy <dunk@denkimushi.com>
+# Contributor: Łukasz Jendrysik <scadu@yandex.com>
+# Contributor: Timo Teras <timo.teras@iki.fi>
+# Maintainer: Timo Teras <timo.teras@iki.fi>
+pkgname=asterisk
+pkgver=20.5.2
+pkgrel=0
+pkgdesc="Modular Open Source PBX System"
+pkgusers="asterisk"
+pkggroups="asterisk"
+url="https://www.asterisk.org/"
+arch="all"
+license="GPL-2.0-only WITH OpenSSL-Exception"
+options="!check"  # Test suite is separate, and require separate build
+makedepends="
+	alsa-lib-dev
+	bluez-dev
+	bsd-compat-headers
+	curl-dev
+	findutils
+	freetds-dev
+	imap-dev
+	jansson-dev
+	libcap-dev
+	libedit-dev
+	libogg-dev
+	libresample
+	libsrtp-dev
+	libtool
+	libxml2-dev
+	lua-dev
+	ncurses-dev
+	newt-dev
+	openssl-dev>3
+	opus-dev
+	opusfile-dev
+	pjproject-dev
+	popt-dev
+	libpq-dev
+	spandsp-dev
+	speexdsp-dev
+	speex-dev
+	sqlite-dev
+	tar
+	tiff-dev
+	unbound-dev
+	unixodbc-dev
+	util-linux-dev
+	zlib-dev
+	"
+install="$pkgname.pre-install $pkgname.pre-upgrade"
+subpackages="
+	$pkgname-dbg
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-pgsql
+	$pkgname-odbc
+	$pkgname-tds
+	$pkgname-fax
+	$pkgname-sample-config:config:noarch
+	$pkgname-sounds-moh:sound_moh:noarch
+	$pkgname-sounds-en:sound_en:noarch
+	$pkgname-mobile
+	$pkgname-curl:_curl
+	$pkgname-srtp
+	$pkgname-speex
+	$pkgname-opus
+	$pkgname-alsa
+	$pkgname-openrc
+	"
+# Using commit from https://github.com/traud/asterisk-opus/commits/asterisk-13.7
+_opus_commit=90e8780faccc79e68c07775c6ab2fe1ffaccfa08
+_download="https://downloads.asterisk.org/pub/telephony/asterisk/releases"
+source="$_download/asterisk-$pkgver.tar.gz
+	https://dev.alpinelinux.org/~tteras/asterisk-addon-mp3-r201.patch.gz
+	asterisk-13.7-$_opus_commit.tar.gz::https://github.com/traud/asterisk-opus/archive/$_opus_commit.tar.gz
+	10-musl-mutex-init.patch
+	20-musl-astmm-fix.patch
+	40-asterisk-cdefs.patch
+	41-asterisk-ALLPERMS.patch
+	gethostbyname_r.patch
+	asterisk.initd
+	asterisk.confd
+	asterisk.logrotate
+	"
+
+# secfixes:
+#   20.5.1-r0:
+#     - CVE-2023-37457
+#     - CVE-2023-49294
+#     - CVE-2023-49786
+#   18.15.1-r0:
+#     - CVE-2022-37325
+#     - CVE-2022-42706
+#     - CVE-2022-42705
+#   18.11.2-r0:
+#     - CVE-2022-26498
+#     - CVE-2022-26499
+#     - CVE-2022-26651
+#   18.2.2-r2:
+#     - CVE-2021-32558
+#   18.2.1-r0:
+#     - CVE-2021-26712
+#     - CVE-2021-26713
+#     - CVE-2021-26717
+#     - CVE-2021-26906
+#   18.1.1-r0:
+#     - CVE-2020-35652
+#     - CVE-2020-35776
+#   18.0.1-r0:
+#     - CVE-2020-28327
+#   16.6.2-r0:
+#     - CVE-2019-18610
+#     - CVE-2019-18790
+#   16.5.1-r0:
+#     - CVE-2019-15297
+#     - CVE-2019-15639
+#   16.4.1-r0:
+#     - CVE-2019-12827
+#   16.3.0-r0:
+#     - CVE-2019-7251
+#   15.7.1-r0:
+#     - CVE-2018-19278
+
+prepare() {
+	default_prepare
+	update_config_guess
+	update_config_sub
+
+	# asteriskssl does not have direct references to libssl, but looks up
+	# symbols from it using dlsym(RTLD_NEXT), so use --no-as-needed for it.
+	sed -i -e 's/ASTSSL_LIBS:=$(OPENSSL_LIB)/ASTSSL_LIBS:=-Wl,--no-as-needed $(OPENSSL_LIB) -Wl,--as-needed/g' main/Makefile
+
+	# copy codec_opus_open_source files
+	# res/* and include/asterisk/* are not needed as asterisk is new enough
+	cp --verbose ../asterisk-opus*/codecs/* codecs
+
+	# Change bluetooth frame size to match Raspberry Pi embedded antennas
+	sed -i 's/DEVICE_FRAME_SIZE 48/DEVICE_FRAME_SIZE 60/' addons/chan_mobile.c
+}
+
+build() {
+	SHA1SUM="$PWD"/build_tools/sha1sum-sh ./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--libdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-xmldoc \
+		--enable-permanent-dlopen \
+		--with-gsm=internal \
+		--with-popt \
+		--with-z \
+		--with-newt \
+		--with-unixodbc \
+		--with-postgres \
+		--with-tds \
+		--with-resample \
+		--with-sqlite3 \
+		--with-speex \
+		--with-asound \
+		--without-dahdi \
+		--without-pri \
+		--without-tonezone \
+		--without-x11 \
+		--without-pjproject-bundled \
+		--with-spandsp \
+		--with-bluetooth \
+		--with-libcurl \
+		--with-libedit \
+		--with-srtp \
+		--with-imap=system \
+		--with-opus \
+		--with-opusfile \
+		CFLAGS="$CFLAGS -DENABLE_SRTP_AES_256"
+
+	# get default modules to build
+	rm -f menuselect.makeopts
+	make menuselect.makeopts
+
+	# and add the non-default modules we need
+	./menuselect/menuselect \
+		--enable app_voicemail_imap \
+		--enable chan_mobile \
+		--enable app_meetme \
+		--disable BUILD_NATIVE \
+		--enable codec_opus_open_source \
+		--enable chan_alsa \
+		menuselect.makeopts
+
+	# build
+	make LDCONFIG=
+}
+
+package() {
+	make DESTDIR="$pkgdir" LDCONFIG_FLAGS="-n" install
+	make DESTDIR="$pkgdir" install-headers
+
+	install -d "$pkgdir"/var/run/asterisk
+	install -d "$pkgdir"/var/lib/asterisk
+
+	install -m755 -D "$srcdir"/$pkgname.initd "$pkgdir"/etc/init.d/$pkgname
+	install -m644 -D "$srcdir"/$pkgname.confd "$pkgdir"/etc/conf.d/$pkgname
+	install -m644 -D "$srcdir"/$pkgname.logrotate \
+		"$pkgdir"/etc/logrotate.d/$pkgname
+
+	chown -R asterisk:asterisk "$pkgdir"/var/*/asterisk
+	chown -R asterisk:asterisk "$pkgdir"/etc/asterisk
+	chmod -R u=rwX,g=rX,o= "$pkgdir"/etc/asterisk
+}
+
+dev() {
+	default_dev
+	depends="asterisk"
+
+	# move back the /usr/lib/libasteriskssl.so symlink, asterisk needs it
+	# see http://bugs.alpinelinux.org/issues/6393
+	mv "$subpkgdir"/usr/lib/libasteriskssl.so "$pkgdir"/usr/lib/libasteriskssl.so
+}
+
+pgsql() { amove usr/lib/asterisk/modules/*_pgsql*; }
+odbc() { amove usr/lib/asterisk/modules/*_odbc*; }
+tds() { amove usr/lib/asterisk/modules/*_tds*; }
+fax() { amove usr/lib/asterisk/modules/*_fax*; }
+mobile() { amove usr/lib/asterisk/modules/*_mobile*; }
+_curl() { amove usr/lib/asterisk/modules/*_curl*; }
+srtp() { amove usr/lib/asterisk/modules/*_srtp*; }
+speex() { amove usr/lib/asterisk/modules/*_speex*; }
+opus() { amove usr/lib/asterisk/modules/codec_opus_open_source.so; }
+alsa() { amove usr/lib/asterisk/modules/*_alsa*; }
+
+config() {
+	pkgdesc="Sample configuration files for asterisk"
+	cd "$builddir"
+	mkdir -p "$subpkgdir"/var/lib/asterisk/phoneprov
+	make -j1 samples DESTDIR="$subpkgdir"
+
+	chown -R asterisk:asterisk "$subpkgdir"/var/*/asterisk
+	chown -R asterisk:asterisk "$subpkgdir"/etc/asterisk
+	chmod -R u=rwX,g=rX,o= "$subpkgdir"/etc/asterisk
+}
+
+sound_moh() {
+	pkgdesc="Default on-hold music files for asterisk"
+	depends=
+	amove var/lib/asterisk/moh
+	chown -R asterisk:asterisk "$subpkgdir"/var/*/asterisk
+}
+
+sound_en() {
+	pkgdesc="English sound files for asterisk"
+	depends=
+	amove var/lib/asterisk/sounds/en
+	chown -R asterisk:asterisk "$subpkgdir"/var/*/asterisk
+}
+
+sha512sums="
+ff2d6ddd5b6031b6e4fcb15c82149c3272031b617bf5bca87af1d085464fcd9af6bd373e9431077ce58a558b50c6b2c9cd4d94e739ecc312371cd605e4746a84  asterisk-20.5.2.tar.gz
+aacef3f4796fb1abd33266998b53909cb4b36e7cc5ad2f7bac68bdc43e9a9072d9a4e2e7e681bddfa31f3d04575eb248afe6ea95da780c67e4829c1e22adfe1b  asterisk-addon-mp3-r201.patch.gz
+69d82b878728f99b7bf7e862025cbc01aa5b6b9332a5372059ea89a788c66fd351f1103989b3573a7a4ba9ff533f3ee2ff5d88de938440e05d6246e41a882306  asterisk-13.7-90e8780faccc79e68c07775c6ab2fe1ffaccfa08.tar.gz
+771237ba6d42ab62d914f2702234b23fd0bc8c22f2aa33b0e745c9170163c8046f6d48ecb299faab3d6fb397f1aa046421083c3cc88510c9779861c522f357dd  10-musl-mutex-init.patch
+0fae11b42894ab3d405bc50e9275b9084712b482fbf9b4259ea938667fc5cbe413655f3ff83da0f607151bb2b6e49c2f741b5ada6944dbb478f076ef8d86380a  20-musl-astmm-fix.patch
+ba33f11169284f190b7dabab1da7d2751cb65d7976408db635a892fa17d7552e1660350017e7aada3464ecc7d9d6e99d6ad76d66c0036de062a386cffbc948e6  40-asterisk-cdefs.patch
+8c7dd38b7317642d3bbd7e90d8bd57f1e7b57ec57955634eebf71bb373c0d418ea3b42a2a248f625a3d3aaad3648f43e27903f5e5a92733c7a2f03de1a87f1d1  41-asterisk-ALLPERMS.patch
+90c8a777108f9d974917d57600aa1d154412415b1085b55ca2c0230aa3e566c35cdd82003e946a348c4f69229dbf9b120983bd4d4eaa4f65a491a0fc11ba84e8  gethostbyname_r.patch
+0044c5db468ec8f2385d18d476f89976f6d036448583a4ef8017ce7a6f8f72105337e6b20037ffe47f561d2877fc9c86720aef23ab037df89b36dc140a5924c4  asterisk.initd
+ab6b6f08ff43268cbb1abb7ed7d678949991ba495682a644bbaeb017d6adbff0a43297905fd73ae8db1786a28d5b5904f1bc253209a0e388c8a27f26c6ce14ed  asterisk.confd
+449b5808d90c813c23432274fba47e53227e3a924a55719d2f9e5a90fd2dfb33660a5c85c7e8f11fbb1cd93387e5c68329ed5583f7a64c2451fadad62a9f87dd  asterisk.logrotate
+"
