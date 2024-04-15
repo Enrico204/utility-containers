@@ -1,0 +1,18 @@
+services:
+  jupyterlab:
+    build: .
+#    ports:
+#      - 127.0.0.1:8888:8888
+    environment:
+      GRANT_SUDO: yes
+    network_mode: host
+    volumes:
+      - /home/enrico/git/:/home/jovyan/work/
+      - /dataset/:/dataset/
+    command:
+      - jupyter-lab
+      - --ip='*'
+      - --NotebookApp.token=''
+      - --NotebookApp.password=''
+      - --ResourceUseDisplay.track_cpu_percent=True
+      - --ResourceUseDisplay.enable_prometheus_metrics=False

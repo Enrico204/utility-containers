@@ -1,0 +1,10 @@
+services:
+  jupyterlab-go:
+    image: janpfeifer/gonb_jupyterlab:latest
+#    ports:
+#      - 127.0.0.1:8889:8888
+    network_mode: host
+    volumes:
+      - /home/enrico/git/:/notebooks/host/
+      - /dataset/:/dataset/
+        #command: ["jupyter-lab", "--ip='*'", "--NotebookApp.token=''", "--NotebookApp.password=''"]
