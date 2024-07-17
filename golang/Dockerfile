@@ -20,7 +20,7 @@ RUN apt-get update -yq && \
     rm /tmp/AppleISTCA2G1.cer && \
     update-ca-certificates && \
     git config --system --add safe.directory "*" && \
-    printf "appuser ALL=NOPASSWD: /usr/bin/apt-get install *" > /etc/sudoers.d/appuser
+    printf "appuser ALL=NOPASSWD: /usr/bin/apt-get *" > /etc/sudoers.d/appuser
 
 # Pack zoneinfo for Go timezone
 WORKDIR /usr/share/zoneinfo
