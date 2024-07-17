@@ -12,14 +12,15 @@ ENV PATH=/app/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:
 # Basic dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -yq && \
-    apt-get install -yq zip ca-certificates tzdata jq curl libsqlite3-0 libsqlite3-dev && \
+    apt-get install -yq zip ca-certificates tzdata jq curl libsqlite3-0 libsqlite3-dev libpcap-dev sudo && \
     apt-get clean && \
     useradd --home /app/ -m appuser && \
     wget https://www.apple.com/certificateauthority/AppleISTCA2G1.cer -O /tmp/AppleISTCA2G1.cer && \
     openssl x509 -inform der -in /tmp/AppleISTCA2G1.cer -out /usr/local/share/ca-certificates/AppleISTCA2G1.crt && \
     rm /tmp/AppleISTCA2G1.cer && \
     update-ca-certificates && \
-    git config --system --add safe.directory "*"
+    git config --system --add safe.directory "*" && \
+    printf "appuser ALL=NOPASSWD: /usr/bin/apt-get install *" > /etc/sudoers.d/appuser
 
 # Pack zoneinfo for Go timezone
 WORKDIR /usr/share/zoneinfo
