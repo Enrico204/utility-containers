@@ -1,6 +1,7 @@
 services:
   jupyterlab:
-    build: .
+    image: enrico204/jupyter-lab:2024-04-01-1
+    #build: .
 #    ports:
 #      - 127.0.0.1:8888:8888
     environment:

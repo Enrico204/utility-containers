@@ -26,7 +26,7 @@ netsplit_repo_version() {
 
 docker_version quay.io/buildah/stable > buildah-builder/BUILDAH.version
 
-github_tag flutter/flutter > flutter-sdk/FLUTTER.version
+# github_tag flutter/flutter > flutter-sdk/FLUTTER.version
 
 docker_version docker.io/library/golang > golang/GO.version
 
