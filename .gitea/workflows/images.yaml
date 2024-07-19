@@ -16,9 +16,9 @@ jobs:
         with:
           token: ${{ github.token }}
       - name: Login into hub.netsplit.it
-        run: buildah login -u $NETSPLIT_REGISTRY_USER -p $NETSPLIT_REGISTRY_PASS hub.netsplit.it
+        run: buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
       - name: Login into Docker Hub
-        run: buildah login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS registry-1.docker.io
+        run: buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
       - name: Build images
         run: podman run -it --rm --privileged -v "$(pwd):/src/" -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro --workdir /src/ hub.netsplit.it/utilities/buildah-builder:1.36.0-2 /bin/bash -x build_images.sh
       - name: Logout from the registry
