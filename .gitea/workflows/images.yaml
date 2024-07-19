@@ -15,11 +15,14 @@ jobs:
         uses: https://git.netsplit.it/actions/git-clone@v1
         with:
           token: ${{ github.token }}
-      # TODO: login
-      # - name: Login into the registry
-      #   run: buildah login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD hub.netsplit.it
+      - name: Login into registries
+        run: |
+          buildah login -u $NETSPLIT_REGISTRY_USER -p $NETSPLIT_REGISTRY_PASS registry-1.docker.io
+          buildah login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS hub.docker.com
       - name: Build images
         run: podman run -it --rm --privileged -v "$(pwd):/src/" -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro --workdir /src/ hub.netsplit.it/utilities/buildah-builder:1.36.0-2 /bin/bash -x build_images.sh
-      # - name: Logout from the registry
-      #   run: buildah logout hub.netsplit.it
-      #   if: always()
+      - name: Logout from the registry
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
