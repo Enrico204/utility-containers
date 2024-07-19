@@ -14,7 +14,7 @@ on:
 jobs:
 EOF
 
-for img in "aria2c aria2c-webui" asterisk buildah-builder dmarc-analyzer dnsmasq eslint ffvnc golang mediamtx node-red novnc openapi platformio postgres-dbmate qbittorrent rsyslog; do
+for img in "aria2c aria2c-webui" asterisk buildah-builder dmarc-analyzer dnsmasq eslint ffvnc golang mediamtx node-red openapi platformio postgres-dbmate qbittorrent rsyslog; do
 cat >> images.yaml <<EOF
 
   ${img/ /-}:
@@ -27,10 +27,11 @@ cat >> images.yaml <<EOF
         uses: https://git.netsplit.it/actions/git-clone@v2
         with:
           token: \${{ github.token }}
-      - name: Login into registries
+      - name: Set credentials for registries
         run: |
-          buildah login -u \${{ secrets.NETSPLIT_REGISTRY_USER }} -p \${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
-          buildah login -u \${{ secrets.DOCKER_REGISTRY_USER }} -p \${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+          export NETSPLIT_CREDS=\$(echo '\${{ secrets.NETSPLIT_REGISTRY_USER }}:\${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
+          export DOCKER_CREDS=\$(echo '\${{ secrets.DOCKER_REGISTRY_USER }}:\${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "\$NETSPLIT_CREDS" "\$DOCKER_CREDS" > "\${XDG_RUNTIME_DIR:-/run/user/\$UID}/containers/auth.json"
       - name: Build images
         run: >
           podman run -it --rm --privileged
@@ -39,11 +40,6 @@ cat >> images.yaml <<EOF
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "$img"
-      - name: Logout from registries
-        run: |
-          buildah logout registry-1.docker.io
-          buildah logout hub.netsplit.it
-        if: always()
 
 EOF
 done
