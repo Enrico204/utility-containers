@@ -36,6 +36,7 @@ USER appuser
 RUN go install github.com/psampaz/go-mod-outdated@v0.9.0 && \
     go install github.com/google/go-licenses@v1.6.0 && \
 	go install golang.org/x/tools/cmd/godoc@latest && \
-	go install github.com/amacneil/dbmate/v2@v2.4.0
+	go install github.com/amacneil/dbmate/v2@v2.4.0 && \
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.53.3
 
 WORKDIR /src/

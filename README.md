@@ -39,9 +39,10 @@ podman run -it --rm --privileged \
   -v "$(pwd):/src/" \
   -v "${XDG_RUNTIME_DIR}/containers/auth.json:/etc/containers/auth.json:ro" \
   -v "$HOME/.docker/config.json:/root/.docker/config.json:ro" \
+  -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro \
   -e "REGISTRY_AUTH_FILE=/etc/containers/auth.json" \
   --workdir /src/ \
-  hub.netsplit.it/utilities/buildah-builder:1.31.0-2 \
+  hub.netsplit.it/utilities/buildah-builder:1.36.0-2 \
   /bin/bash -x /src/build_images.sh
 ```
 
@@ -51,7 +52,8 @@ Use docker-login credentials only:
 podman run -it --rm --privileged \
   -v "$(pwd):/src/" \
   -v "$HOME/.docker/config.json:/root/.docker/config.json:ro" \
+  -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro \
   --workdir /src/ \
-  hub.netsplit.it/utilities/buildah-builder:1.31.0-2 \
+  hub.netsplit.it/utilities/buildah-builder:1.36.0-2 \
   /bin/bash -x /src/build_images.sh
 ```
