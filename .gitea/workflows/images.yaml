@@ -5,7 +5,8 @@ on:
       - master
 
 jobs:
-  BuildImages:
+
+  aria2c-aria2c-webui:
     runs-on: host-linux-amd64
     container:
       volumes:
@@ -15,15 +16,456 @@ jobs:
         uses: https://git.netsplit.it/actions/git-clone@v2
         with:
           token: ${{ github.token }}
-      - name: Login into hub.netsplit.it
-        run: buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
-      - name: Login into Docker Hub
-        run: buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
       - name: Build images
-        run: podman run -it --rm --privileged -v "$(pwd):/src/" -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro --workdir /src/ hub.netsplit.it/utilities/buildah-builder:1.36.0-2 /bin/bash -x build_images.sh
-      - name: Logout from the registry
-        run: buildah logout registry-1.docker.io
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "aria2c aria2c-webui"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
         if: always()
-      - name: Logout from the registry
-        run: buildah logout hub.netsplit.it
+
+
+  asterisk:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "asterisk"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
         if: always()
+
+
+  buildah-builder:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "buildah-builder"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  dmarc-analyzer:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "dmarc-analyzer"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  dnsmasq:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "dnsmasq"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  eslint:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "eslint"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  ffvnc:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "ffvnc"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  golang:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "golang"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  mediamtx:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "mediamtx"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  node-red:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "node-red"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  novnc:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "novnc"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  openapi:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "openapi"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  platformio:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "platformio"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  postgres-dbmate:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "postgres-dbmate"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  qbittorrent:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "qbittorrent"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
+
+  rsyslog:
+    runs-on: host-linux-amd64
+    container:
+      volumes:
+        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
+    steps:
+      - name: Checking out the repository
+        uses: https://git.netsplit.it/actions/git-clone@v2
+        with:
+          token: ${{ github.token }}
+      - name: Login into registries
+        run: |
+          buildah login -u ${{ secrets.NETSPLIT_REGISTRY_USER }} -p ${{ secrets.NETSPLIT_REGISTRY_PASS }} hub.netsplit.it
+          buildah login -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PASS }} registry-1.docker.io
+      - name: Build images
+        run: >
+          podman run -it --rm --privileged
+          -v "$(pwd):/src/"
+          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          --workdir /src/
+          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
+          /bin/bash -x build_images.sh "rsyslog"
+      - name: Logout from registries
+        run: |
+          buildah logout registry-1.docker.io
+          buildah logout hub.netsplit.it
+        if: always()
+
