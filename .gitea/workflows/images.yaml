@@ -12,7 +12,7 @@ jobs:
         - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
     steps:
       - name: Checking out the repository
-        uses: https://git.netsplit.it/actions/git-clone@v1
+        uses: https://git.netsplit.it/actions/git-clone@v2
         with:
           token: ${{ github.token }}
       - name: Login into hub.netsplit.it
