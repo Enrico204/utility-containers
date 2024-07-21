@@ -3,7 +3,7 @@ set -eou pipefail
 
 . /etc/os-release
 
-rm -f /etc/apt/sources.list
+rm -f /etc/apt/sources.list /etc/apt/sources.list.d/*
 
 if [ "${1:-}" == "sysprep" ]; then
     # Remove proxy
@@ -26,6 +26,7 @@ EOF
 fi
 
 case $VERSION_CODENAME in
+    # Older versions not supported
     stretch)
         cat >> /etc/apt/sources.list <<EOF
 deb http://deb.debian.org/debian/ stretch main non-free contrib
@@ -50,16 +51,12 @@ deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
 deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free
 EOF
         ;;
-    bookworm)
-        cat >> /etc/apt/sources.list <<EOF
-deb http://deb.debian.org/debian/ bookworm main non-free contrib
-deb http://security.debian.org/debian-security bookworm-security main contrib non-free
-deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free
-deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free
-EOF
-        ;;
     *)
-        echo "Not supported by setup-mirror.sh"
-        exit 1
+        cat >> /etc/apt/sources.list <<EOF
+deb http://deb.debian.org/debian/ $VERSION_CODENAME main contrib non-free non-free-firmware
+deb http://security.debian.org/debian-security $VERSION_CODENAME-security main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian/ $VERSION_CODENAME-updates main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian/ $VERSION_CODENAME-backports main contrib non-free non-free-firmware
+EOF
         ;;
 esac
