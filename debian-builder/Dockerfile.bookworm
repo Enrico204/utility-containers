@@ -4,9 +4,10 @@ ARG apt_proxy
 
 COPY *.sh /tmp/
 RUN bash /tmp/setup-mirror.sh && \
-    apt-get update && \
+    apt-get update -yq && \
+    apt-get dist-upgrade -yq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends lsb-release dkms build-essential fakeroot debhelper \
-        wget curl jq equivs gettext-base ca-certificates unzip \
+        wget curl jq equivs gettext-base ca-certificates unzip openssh-client \
         devscripts debian-keyring libdistro-info-perl quilt libx11-dev libxinerama-dev libxft-dev libfreetype6-dev pkg-config \
         git libfuse-dev libopus-dev libpam0g-dev nasm libjpeg-dev libssl-dev libx11-dev libxfixes-dev libxrandr-dev systemd \
         golang && \
@@ -15,4 +16,6 @@ RUN bash /tmp/setup-mirror.sh && \
     bash /tmp/setup-mirror.sh sysprep && \
     rm /tmp/*
 
-RUN touch /etc/dkms/no-autoinstall
+COPY mynet.pem /usr/local/share/ca-certificates/mynet.crt
+RUN touch /etc/dkms/no-autoinstall && \
+    update-ca-certificates

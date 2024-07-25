@@ -13,10 +13,12 @@ fi
 
 DISTROS=${1:-}
 if [ "$DISTROS" == "" ]; then
-	DISTROS="bullseye bookworm trixie"
+	DISTROS="bookworm trixie"
 fi
 
-VERSION=2
+VERSION=3
+
+cp ../mynet.pem .
 
 for distro in $DISTROS; do
 	IMAGE_PATH="$BASEURL/debian-builder:$distro-v$VERSION"
