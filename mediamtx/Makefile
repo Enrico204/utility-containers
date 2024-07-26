@@ -1,13 +1,20 @@
-VERSION=1
+MEDIAMTX_VERSION=$(shell cat MEDIAMTX.version)
+VERSION=${MEDIAMTX_VERSION}-1
+
+BUILDAH_ARGS=--build-arg MEDIAMTX_VERSION=${MEDIAMTX_VERSION} -f Dockerfile --manifest ${IMAGE_PATH}:${VERSION}
 
 docker:
-	docker build --build-arg VERSION=${VERSION} -f Dockerfile -t ${IMAGE_PATH}:${VERSION} .
+	buildah manifest rm containers-storage:${IMAGE_PATH}:${VERSION} > /dev/null 2>&1 || true
+	buildah manifest create ${IMAGE_PATH}:${VERSION}
+
+	buildah bud ${BUILDAH_ARGS} --arch amd64
+#	buildah bud ${BUILDAH_ARGS} --arch arm64 --variant v8
 
 push:
-	docker push ${IMAGE_PATH}:${VERSION}
+	buildah manifest push --all --format=docker ${IMAGE_PATH}:${VERSION} docker://${IMAGE_PATH}:${VERSION}
 
 version:
 	@echo ${VERSION}
 
 inspect:
-	docker inspect ${IMAGE_PATH}:${VERSION}
+	buildah manifest inspect ${IMAGE_PATH}:${VERSION}

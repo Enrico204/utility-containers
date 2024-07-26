@@ -34,8 +34,6 @@ RUN go install github.com/janpfeifer/gonb@latest && \
     go install github.com/psampaz/go-mod-outdated@v0.9.0 && \
     go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.53.3 && \
     go install github.com/amacneil/dbmate/v2@v2.4.0 && \
-    go install golang.org/x/tools/cmd/goimports@latest && \
-    go install golang.org/x/tools/gopls@latest && \
     PATH="$PATH:/usr/local/go/bin/:$HOME/go/bin/" gonb -install
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "--disable-telemetry", "."]

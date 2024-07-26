@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eou pipefail
 
+. ../../vars.sh
+
 # This script generates the workflow for the Gitea pipeline dinamically, to
 # have one job per container.
 
@@ -14,10 +16,10 @@ on:
 jobs:
 EOF
 
-for img in "aria2c aria2c-webui" asterisk buildah-builder dmarc-analyzer dnsmasq eslint ffvnc golang mediamtx node-red openapi platformio postgres-dbmate qbittorrent rsyslog; do
+for img in $IMAGES; do
 cat >> images.yaml <<EOF
 
-  ${img/ /-}:
+  ${img}:
     runs-on: host-linux-amd64
     container:
       volumes:
@@ -32,7 +34,7 @@ cat >> images.yaml <<EOF
           export NETSPLIT_CREDS=\$(echo '\${{ secrets.NETSPLIT_REGISTRY_USER }}:\${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=\$(echo '\${{ secrets.DOCKER_REGISTRY_USER }}:\${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
           printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "\$NETSPLIT_CREDS" "\$DOCKER_CREDS" > "\${XDG_RUNTIME_DIR:-/var/tmp/containers-user-\$UID/containers}/containers/auth.json"
-      - name: Build images
+      - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "\$(pwd):/src/"

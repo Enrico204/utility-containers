@@ -1,9 +1,11 @@
-FROM docker.io/library/debian:bullseye-slim
+FROM docker.io/library/debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y wget ffmpeg tar gzip && rm -rf /var/cache/apt/*
 
-RUN wget https://github.com/bluenviron/mediamtx/releases/download/v0.23.3/mediamtx_v0.23.3_linux_amd64.tar.gz -O /tmp/mediamtx.tgz && \
+ARG MEDIAMTX_VERSION
+ARG ARCH=$(dpkg --print-architecture)
+RUN wget https://github.com/bluenviron/mediamtx/releases/download/v${MEDIAMTX_VERSION}/mediamtx_v${MEDIAMTX_VERSION}_linux_amd64.tar.gz -O /tmp/mediamtx.tgz && \
     tar xvf /tmp/mediamtx.tgz -C /usr/local/bin/ mediamtx
 
 USER 1000

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -o pipefail
+set -eou pipefail
 
 cd "$(dirname "$0")"
 
@@ -11,8 +11,6 @@ if ! command -v skopeo; then
     exit 1
 fi
 
-IMAGES="aria2c aria2c-webui asterisk buildah-builder dmarc-analyzer dnsmasq eslint ffvnc golang mediamtx node-red openapi platformio postgres-dbmate qbittorrent rsyslog"
-
 if [ "$1" != "" ]; then
     IMAGES="$1"
 fi
@@ -20,25 +18,37 @@ fi
 for tag in $IMAGES; do
     cd "$tag"
     VERSION=$(make version)
+
+    # Check whether images exists locally or in Netsplit Hub
+    LOCAL_EXISTS=1
+    HUB_EXISTS=1
+
+    set +e
     if ! buildah manifest inspect "containers-storage:$BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
-        # Image does not exists, build
-        set -e
-        IMAGE_PATH="$BASEURL/$tag" make docker
-        set +e
+        LOCAL_EXISTS=0
     fi
 
     if ! skopeo inspect "docker://$BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
-        # Image does not exists in the main repo, push it
-        set -e
+        HUB_EXISTS=0
+    fi
+    set -e
+    
+    if [ $HUB_EXISTS -eq 0 ]; then
+        if [ $LOCAL_EXISTS -eq 0 ]; then
+            # Image does not exists locally, build it
+            IMAGE_PATH="$BASEURL/$tag" make docker
+        fi
+
+        # and then push it
         buildah manifest push --all --format=docker "$BASEURL/$tag:$VERSION" "docker://$BASEURL/$tag:$VERSION"
-        set +e
+
+        # Mirror container in Docker Hub, if needed
+        if ! skopeo inspect "docker://$DOCKERHUB_BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
+            set -e
+            buildah manifest push --all --format=docker "$BASEURL/$tag:$VERSION" "docker://$DOCKERHUB_BASEURL/$tag:$VERSION"
+            set +e
+        fi
     fi
 
-    # Mirror container in Docker Hub
-    if ! skopeo inspect "docker://$DOCKERHUB_BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
-        set -e
-        buildah manifest push --all --format=docker "$BASEURL/$tag:$VERSION" "docker://$DOCKERHUB_BASEURL/$tag:$VERSION"
-        set +e
-    fi
     cd ..
 done
