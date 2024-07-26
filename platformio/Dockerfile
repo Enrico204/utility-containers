@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.9
+FROM docker.io/library/python:3.11
 
 RUN apt-get update -yq && \
     apt-get install -yq libncurses5-dev flex bison build-essential && \

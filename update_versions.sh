@@ -45,3 +45,5 @@ github_version amacneil/dbmate > postgres-dbmate/DBMATE.version
 docker_version docker.io/library/postgres > postgres-dbmate/POSTGRES.version
 
 github_version aptible/supercronic > dmarc-analyzer/SUPERCRONIC.version
+
+docker_version ghcr.io/eclipse-theia/theia-blueprint/theia-ide > theia-server-ipython/THEIA.version

@@ -41,13 +41,6 @@ for tag in $IMAGES; do
 
         # and then push it
         buildah manifest push --all --format=docker "$BASEURL/$tag:$VERSION" "docker://$BASEURL/$tag:$VERSION"
-
-        # Mirror container in Docker Hub, if needed
-        if ! skopeo inspect "docker://$DOCKERHUB_BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
-            set -e
-            buildah manifest push --all --format=docker "$BASEURL/$tag:$VERSION" "docker://$DOCKERHUB_BASEURL/$tag:$VERSION"
-            set +e
-        fi
     fi
 
     cd ..
