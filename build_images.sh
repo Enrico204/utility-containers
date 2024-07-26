@@ -20,10 +20,17 @@ fi
 for tag in $IMAGES; do
     cd "$tag"
     VERSION=$(make version)
-    if ! skopeo inspect "docker://$BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
-        # Image does not exists
+    if ! buildah manifest inspect "containers-storage:$BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
+        # Image does not exists, build
         set -e
-        IMAGE_PATH="$BASEURL/$tag" make docker push
+        IMAGE_PATH="$BASEURL/$tag" make docker
+        set +e
+    fi
+
+    if ! skopeo inspect "docker://$BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
+        # Image does not exists in the main repo, push it
+        set -e
+        buildah manifest push --all --format=docker "$BASEURL/$tag:$VERSION" "docker://$BASEURL/$tag:$VERSION"
         set +e
     fi
 
