@@ -47,3 +47,9 @@ docker_version docker.io/library/postgres > postgres-dbmate/POSTGRES.version
 github_version aptible/supercronic > dmarc-analyzer/SUPERCRONIC.version
 
 docker_version ghcr.io/eclipse-theia/theia-blueprint/theia-ide > theia-server-ipython/THEIA.version
+
+source asterisk/_env.sh
+podman run -it --rm \
+    docker.io/library/alpine:${ALPINE_VERSION} \
+    /bin/sh -c "apk update > /dev/null && apk info asterisk | head -n 1 | cut -f 1 -d ' ' | cut -f 2- -d -" \
+    > asterisk/ASTERISK.version
