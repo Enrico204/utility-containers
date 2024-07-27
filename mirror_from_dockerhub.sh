@@ -5,16 +5,17 @@ mirror_image_to_netsplit() {
     local IMAGE_SRC="$1"
     local IMAGE_DST="${IMAGE_SRC/docker.io/hub.netsplit.it}"
     IMAGE_DST="${IMAGE_DST/enrico204/utilities}"
+    TEMPORARY_JSON_FILE=/tmp/image-manifest.json
 
-    skopeo inspect --raw "$IMAGE_SRC" > /tmp/image-manifest.json
-    MANIFEST_TYPE=$(cat /tmp/image-manifest.json | jq -r ".mediaType")
+    skopeo inspect --raw "$IMAGE_SRC" > $TEMPORARY_JSON_FILE
+    MANIFEST_TYPE=$(cat $TEMPORARY_JSON_FILE | jq -r ".mediaType")
 
     skopeo copy -a "$IMAGE_SRC" "$IMAGE_DST"
 
     # If it is a multi-arch image, create a tag for each image layer to work around the registry bug
     if [ "$MANIFEST_TYPE" == "application/vnd.docker.distribution.manifest.list.v2+json" ]; then
-        for arch in $(cat /tmp/manifest.json | jq -r '.manifests | .[].platform | select(.os=="linux").architecture'); do
-            for variant in $(cat /tmp/manifest.json | jq -r ".manifests | .[].platform | select(.architecture==\"$arch\") | .variant"); do
+        for arch in $(cat $TEMPORARY_JSON_FILE | jq -r '.manifests | .[].platform | select(.os=="linux").architecture'); do
+            for variant in $(cat $TEMPORARY_JSON_FILE | jq -r ".manifests | .[].platform | select(.architecture==\"$arch\") | .variant"); do
                 if [ "$variant" == "null" ]; then
                     skopeo copy --override-arch "$arch" "$IMAGE_SRC" "${IMAGE_DST}-$arch"
                 else
