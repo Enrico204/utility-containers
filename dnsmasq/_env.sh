@@ -1,2 +1,2 @@
-ARCHITECTURES="amd64 arm64 armhf"
+ARCHITECTURES="amd64 arm64 armv7"
 VERSION=3
