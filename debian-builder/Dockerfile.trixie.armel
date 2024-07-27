@@ -1,10 +1,7 @@
-FROM docker.io/arm32v5/debian:trixie
-ARG apt_mirror
-ARG apt_proxy
+FROM docker.io/arm32v5/debian:trixie-backports
 
 COPY *.sh /tmp/
-RUN bash /tmp/setup-mirror.sh && \
-    apt-get update -yq && \
+RUN apt-get update -yq && \
     apt-get dist-upgrade -yq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends lsb-release dkms build-essential fakeroot debhelper \
         wget curl jq equivs gettext-base ca-certificates unzip openssh-client \
@@ -12,9 +9,7 @@ RUN bash /tmp/setup-mirror.sh && \
         git libfuse-dev libopus-dev libpam0g-dev nasm libjpeg-dev libssl-dev libx11-dev libxfixes-dev libxrandr-dev systemd && \
     touch /etc/dkms/no-autoinstall && \
     bash /tmp/preload.sh && \
-    bash /tmp/setup-mirror.sh sysprep && \
     rm /tmp/*
 
 COPY mynet.pem /usr/local/share/ca-certificates/mynet.crt
-RUN touch /etc/dkms/no-autoinstall && \
-    update-ca-certificates
+RUN update-ca-certificates

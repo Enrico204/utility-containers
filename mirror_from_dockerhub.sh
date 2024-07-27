@@ -19,7 +19,7 @@ mirror_image_to_netsplit() {
                 if [ "$variant" == "null" ]; then
                     skopeo copy --override-arch "$arch" "$IMAGE_SRC" "${IMAGE_DST}-$arch"
                 else
-                    skopeo copy --override-arch "$arch" --override-variant "$variant" "$IMAGE_SRC" "${IMAGE_DST}-$arch-$variant"
+                    skopeo copy --override-arch "$arch" --override-variant "$variant" "$IMAGE_SRC" "${IMAGE_DST}-$arch$variant"
                 fi
             done
         done
@@ -29,5 +29,6 @@ mirror_image_to_netsplit() {
 
 mirror_image_to_netsplit docker://docker.io/ibmdevxsdk/openapi-validator:1.19.2
 mirror_image_to_netsplit docker://docker.io/hadolint/hadolint:v2.12.0-debian
-mirror_image_to_netsplit docker://docker.io/library/debian:12.6
-mirror_image_to_netsplit docker://docker.io/library/debian:12.6-slim
+mirror_image_to_netsplit docker://docker.io/library/debian:bookworm
+mirror_image_to_netsplit docker://docker.io/library/debian:bookworm-slim
+mirror_image_to_netsplit docker://docker.io/library/debian:bookworm-backports
