@@ -1,0 +1,2 @@
+ARCHITECTURES="amd64 arm64 armhf"
+VERSION=3

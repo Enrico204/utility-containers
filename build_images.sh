@@ -6,41 +6,91 @@ cd "$(dirname "$0")"
 . vars.sh
 
 
-if ! command -v skopeo; then
-    echo "Skopeo command is missing"
+if ! command -v skopeo > /dev/null; then
+    echo "skopeo command is missing"
     exit 1
 fi
 
-if [ "$1" != "" ]; then
-    IMAGES="$1"
+if ! command -v buildah > /dev/null; then
+    echo "buildah command is missing"
+    exit 1
 fi
 
-for tag in $IMAGES; do
-    cd "$tag"
-    VERSION=$(make version)
+if [ "${1:-}" != "" ]; then
+    IMAGES="${1:-}"
+fi
+
+
+for image in $IMAGES; do
+    cd "$image"
+
+    VERSION=""
+    BUILDAH_ARGS=""
+    ARCHITECTURES="amd64"
+
+    source _env.sh
+
+    if [ "$VERSION" == "" ]; then
+        echo "$image: No VERSION specified, skipping"
+        cd ..
+        continue
+    fi
+
+    IMAGE_FULL_NAME="${BASEURL}/${image}:${VERSION}"
 
     # Check whether images exists locally or in Netsplit Hub
     LOCAL_EXISTS=1
     HUB_EXISTS=1
 
     set +e
-    if ! buildah manifest inspect "containers-storage:$BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
+    if ! buildah inspect "containers-storage:$IMAGE_FULL_NAME" > /dev/null 2>&1; then
         LOCAL_EXISTS=0
     fi
 
-    if ! skopeo inspect "docker://$BASEURL/$tag:$VERSION" > /dev/null 2>&1; then
+    if ! skopeo inspect "docker://$IMAGE_FULL_NAME" > /dev/null 2>&1; then
         HUB_EXISTS=0
     fi
     set -e
     
     if [ $HUB_EXISTS -eq 0 ]; then
         if [ $LOCAL_EXISTS -eq 0 ]; then
-            # Image does not exists locally, build it
-            IMAGE_PATH="$BASEURL/$tag" make docker
-        fi
+            # Image does not exists locally and remotely, build it
+            buildah manifest create "${IMAGE_FULL_NAME}"
 
-        # and then push it
-        buildah manifest push --all --format=docker "$BASEURL/$tag:$VERSION" "docker://$BASEURL/$tag:$VERSION"
+            N=0
+            for arch in $ARCHITECTURES; do
+                if [ "$arch" == "amd64" ]; then
+                    buildah bud -f Dockerfile --manifest "${IMAGE_FULL_NAME}" --arch amd64              -t ${IMAGE_FULL_NAME}-amd64 ${BUILDAH_ARGS}
+                elif [ "$arch" == "arm64" ]; then
+                    buildah bud -f Dockerfile --manifest "${IMAGE_FULL_NAME}" --arch arm64 --variant v8 -t ${IMAGE_FULL_NAME}-arm64 ${BUILDAH_ARGS}
+                elif [ "$arch" == "armhf" ]; then
+                    buildah bud -f Dockerfile --manifest "${IMAGE_FULL_NAME}" --arch arm   --variant v7 -t ${IMAGE_FULL_NAME}-armhf ${BUILDAH_ARGS}
+                elif [ "$arch" == "armel" ]; then
+                    buildah bud -f Dockerfile --manifest "${IMAGE_FULL_NAME}" --arch arm   --variant v5 -t ${IMAGE_FULL_NAME}-armel ${BUILDAH_ARGS}
+                else
+                    echo "$image: Wrong platform $arch"
+                    exit 1
+                fi
+                N=$(($N+1))
+            done
+
+            if [ $N -eq 1 ]; then
+                # No manifest needed (one arch only), push only the image
+                set +e
+                buildah manifest rm containers-storage:${IMAGE_FULL_NAME} > /dev/null 2>&1 || true
+                set -e
+                buildah tag "${IMAGE_FULL_NAME}-$ARCHITECTURES" "${IMAGE_FULL_NAME}"
+                buildah push "${IMAGE_FULL_NAME}"
+            else
+                # Push manifest
+                buildah push "${IMAGE_FULL_NAME}"
+
+                # Push tags for specific architectures (workaround docker registry bug)
+                for arch in $ARCHITECTURES; do
+                    buildah push "${IMAGE_FULL_NAME}-${arch}"
+                done
+            fi
+        fi
     fi
 
     cd ..

@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM docker.io/library/debian:bookworm-slim
 
 RUN apt-get update -yq \
     && apt-get install -yq --no-install-recommends rsyslog \
