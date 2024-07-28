@@ -39,6 +39,7 @@ cat >> images.yaml <<EOF
           podman run -it --rm --privileged
           -v "\$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+          -v "\${XDG_RUNTIME_DIR:-/var/tmp/containers-user-\$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "$img"
