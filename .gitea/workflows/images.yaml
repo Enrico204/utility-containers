@@ -21,7 +21,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -54,7 +54,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -87,7 +87,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -120,7 +120,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -153,7 +153,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -186,7 +186,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -219,7 +219,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -252,7 +252,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -285,7 +285,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -318,7 +318,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -351,7 +351,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -384,7 +384,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -417,7 +417,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -450,7 +450,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -483,7 +483,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -516,7 +516,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
@@ -549,7 +549,7 @@ jobs:
           mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "https://index.docker.io/v1/": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
           printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
