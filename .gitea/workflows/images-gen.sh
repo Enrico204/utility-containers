@@ -32,10 +32,18 @@ cat >> images.yaml <<EOF
       - name: Set credentials for registries
         run: |
           mkdir -p "\$HOME/.docker/"
-          export NETSPLIT_CREDS=\$(echo '\${{ secrets.NETSPLIT_REGISTRY_USER }}:\${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
-          export DOCKER_CREDS=\$(echo '\${{ secrets.DOCKER_REGISTRY_USER }}:\${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "docker.io": {"auth": "%s"}}}' "\$NETSPLIT_CREDS" "\$DOCKER_CREDS" > "\$HOME/.docker/auth.json"
-          printf "REGISTRY_AUTH_FILE=\$HOME/.docker/auth.json"
+          export REGISTRY_AUTH_FILE=\$HOME/.docker/auth.json
+
+          # export NETSPLIT_CREDS=\$(echo '\${{ secrets.NETSPLIT_REGISTRY_USER }}:\${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
+          # export DOCKER_CREDS=\$(echo '\${{ secrets.DOCKER_REGISTRY_USER }}:\${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
+          # printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "docker.io": {"auth": "%s"}}}' "\$NETSPLIT_CREDS" "\$DOCKER_CREDS" > "\$HOME/.docker/auth.json"
+          podman login hub.netsplit.it -u '\${{ secrets.NETSPLIT_REGISTRY_USER }}' -p '\${{ secrets.NETSPLIT_REGISTRY_PASS }}'
+          podman login docker.io -u '\${{ secrets.DOCKER_REGISTRY_USER }}' -p '\${{ secrets.DOCKER_REGISTRY_PASS }}'
+          printf "REGISTRY_AUTH_FILE=\$REGISTRY_AUTH_FILE" >> \$GITHUB_ENV
+
+          #echo "Docker Hub limits:"
+          #TOKEN=\$(curl --user '\${{ secrets.DOCKER_REGISTRY_USER }}:\${{ secrets.DOCKER_REGISTRY_PASS }}' -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
+          #curl -s -I -H "Authorization: Bearer \$TOKEN" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest | grep "^ratelimit"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
@@ -48,7 +56,7 @@ cat >> images.yaml <<EOF
           /bin/bash -x build_images.sh "$img"
       - name: Cleanup
         run: |
-          rm -f "\$REGISTRY_AUTH_FILE"
+          echo rm -f "\$REGISTRY_AUTH_FILE"
         if: always()
 
 EOF
