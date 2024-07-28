@@ -29,6 +29,11 @@ cat >> images.yaml <<EOF
         uses: https://git.netsplit.it/actions/git-clone@v2
         with:
           token: \${{ github.token }}
+      - name: Set credentials for registries
+        run: |
+          export NETSPLIT_CREDS=\$(echo '\${{ secrets.NETSPLIT_REGISTRY_USER }}:\${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
+          export DOCKER_CREDS=\$(echo '\${{ secrets.DOCKER_REGISTRY_USER }}:\${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "\$NETSPLIT_CREDS" "\$DOCKER_CREDS" > "\${XDG_RUNTIME_DIR:-/var/tmp/containers-user-\$UID/containers}/containers/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
