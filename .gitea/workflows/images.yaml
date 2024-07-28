@@ -18,18 +18,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "aria2c"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   aria2c-webui:
@@ -44,18 +51,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "aria2c-webui"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   asterisk:
@@ -70,18 +84,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "asterisk"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   buildah-builder:
@@ -96,18 +117,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "buildah-builder"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   dmarc-analyzer:
@@ -122,18 +150,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "dmarc-analyzer"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   dnsmasq:
@@ -148,18 +183,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "dnsmasq"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   eslint:
@@ -174,18 +216,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "eslint"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   ffvnc:
@@ -200,18 +249,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "ffvnc"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   golang:
@@ -226,18 +282,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "golang"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   mediamtx:
@@ -252,18 +315,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "mediamtx"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   node-red:
@@ -278,18 +348,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "node-red"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   openapi:
@@ -304,18 +381,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "openapi"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   platformio:
@@ -330,18 +414,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "platformio"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   postgres-dbmate:
@@ -356,18 +447,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "postgres-dbmate"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   qbittorrent:
@@ -382,18 +480,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "qbittorrent"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   rsyslog:
@@ -408,18 +513,25 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "rsyslog"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
 
   vscode-server-ipython:
@@ -434,16 +546,23 @@ jobs:
           token: ${{ github.token }}
       - name: Set credentials for registries
         run: |
+          mkdir -p "$HOME/.docker/"
           export NETSPLIT_CREDS=$(echo '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
           export DOCKER_CREDS=$(echo '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json"
+          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "registry-1.docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
+          printf "REGISTRY_AUTH_FILE=$HOME/.docker/auth.json"
       - name: Build and push image
         run: >
           podman run -it --rm --privileged
           -v "$(pwd):/src/"
           -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "${XDG_RUNTIME_DIR:-/var/tmp/containers-user-$UID/containers}/containers/auth.json:/etc/containers/auth.json:ro"
+          -v "$HOME/.docker/auth.json:/auth.json:ro"
+          -e REGISTRY_AUTH_FILE=/auth.json
           --workdir /src/
           hub.netsplit.it/utilities/buildah-builder:1.36.0-2
           /bin/bash -x build_images.sh "vscode-server-ipython"
+      - name: Cleanup
+        run: |
+          rm -f "$REGISTRY_AUTH_FILE"
+        if: always()
 
