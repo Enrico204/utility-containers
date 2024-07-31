@@ -1,4 +1,5 @@
-FROM docker.io/library/eclipse-temurin:17.0.8.1_1-jdk
+ARG TEMURIN_VERSION
+FROM docker.io/library/eclipse-temurin:${TEMURIN_VERSION}
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -yq update && \
