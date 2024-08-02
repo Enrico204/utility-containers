@@ -41,8 +41,10 @@ USER appuser
 # See "How to use this image" under https://hub.docker.com/_/golang
 RUN go install github.com/psampaz/go-mod-outdated@v0.9.0 && \
     go install github.com/google/go-licenses@v1.6.0 && \
-	go install golang.org/x/tools/cmd/godoc@latest && \
-	go install github.com/amacneil/dbmate/v2@v2.4.0 && \
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.53.3
+    go install golang.org/x/tools/cmd/godoc@latest && \
+    go install github.com/amacneil/dbmate/v2@v2.4.0 && \
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.53.3 && \
+    git config --global init.defaultBranch master && \
+    git config --global advice.detachedHead false
 
 WORKDIR /src/
