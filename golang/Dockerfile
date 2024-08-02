@@ -9,6 +9,7 @@ ENV GOOS linux
 ENV GOPATH=
 ENV PATH=/app/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+COPY mynet.pem /usr/local/share/ca-certificates/mynet.crt
 # Basic dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -yq && \
@@ -21,9 +22,6 @@ RUN apt-get update -yq && \
     apt-get install -yq docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
     apt-get clean && \
     useradd --home /app/ -m appuser && \
-    wget https://www.apple.com/certificateauthority/AppleISTCA2G1.cer -O /tmp/AppleISTCA2G1.cer && \
-    openssl x509 -inform der -in /tmp/AppleISTCA2G1.cer -out /usr/local/share/ca-certificates/AppleISTCA2G1.crt && \
-    rm /tmp/AppleISTCA2G1.cer && \
     update-ca-certificates && \
     git config --system --add safe.directory "*" && \
     printf "appuser ALL=NOPASSWD: /usr/bin/apt-get *" > /etc/sudoers.d/appuser
