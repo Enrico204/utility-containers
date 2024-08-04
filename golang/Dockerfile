@@ -30,10 +30,6 @@ RUN apt-get update -yq && \
 WORKDIR /usr/share/zoneinfo
 RUN zip -r -0 /zoneinfo.zip .
 
-RUN wget -O /tmp/golangci-lint.tar.gz https://github.com/golangci/golangci-lint/releases/download/v1.55.2/golangci-lint-1.55.2-linux-amd64.tar.gz && \
-    tar xvf /tmp/golangci-lint.tar.gz --strip-components=1 -C /usr/bin/ && \
-    rm /tmp/golangci-lint.tar.gz
-
 USER appuser
 # Install CLI tools and restore permissions to 777 because we use a user to do everything
 # See "How to use this image" under https://hub.docker.com/_/golang
