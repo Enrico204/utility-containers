@@ -26,9 +26,12 @@ cat >> images.yaml <<EOF
         - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
     steps:
       - name: Checking out the repository
-        uses: https://git.netsplit.it/actions/git-clone@v2
-        with:
-          token: \${{ github.token }}
+        run: |
+          echo "Cloning the repository"
+          git init
+          git remote add origin "https://git:\${{ github.token }}@git.netsplit.it/\${GITHUB_REPOSITORY}"
+          git fetch --depth 1 origin "\$GITHUB_SHA"
+          git checkout FETCH_HEAD
       - name: Set credentials for registries
         run: |
           mkdir -p "\$HOME/.docker/"
