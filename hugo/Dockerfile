@@ -1,5 +1,6 @@
 FROM docker.io/library/debian:bookworm-slim
 
+COPY mynet.pem /usr/local/share/ca-certificates/mynet.crt
 ARG HUGO_VERSION
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -8,6 +9,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install --no-install-recommends -qy hugo=${HUGO_VERSION} rsync openssh-client git sudo && \
     rm -rf /var/cache/apt/* /etc/apt/sources.list.d/netsplit.list && \
+    update-ca-certificates && \
     useradd --home /app/ -m appuser && \
     git config --system --add safe.directory "*" && \
     printf "appuser ALL=NOPASSWD: /usr/bin/apt-get *" > /etc/sudoers.d/appuser && \

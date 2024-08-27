@@ -56,6 +56,8 @@ for image in "${IMAGES[@]}"; do
     if [ "$HUB_EXISTS" -eq 0 ]; then
         if [ "$LOCAL_EXISTS" -eq 0 ]; then
             # Image does not exists locally and remotely, build it
+            cp ../mynet.pem .
+            
             buildah manifest create "$IMAGE_FULL_NAME"
 
             for arch in "${ARCHITECTURES[@]}"; do
