@@ -33,7 +33,7 @@ cp golang/GO.version vscode-server-ipython/GO.version
 
 skopeo inspect "docker://docker.io/codercom/code-server" | jq -r ".RepoTags | .[]" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1 > vscode-server-ipython/VSCODE.version
 
-# netsplit_repo_version selfcontained hugo amd64 > hugo-pandoc/HUGO.version
+netsplit_repo_version selfcontained hugo amd64 > hugo/HUGO.version
 # netsplit_repo_version selfcontained pandoc amd64 > hugo-pandoc/PANDOC.version
 # netsplit_repo_version selfcontained plantuml all > hugo-pandoc/PLANTUML.version
 
