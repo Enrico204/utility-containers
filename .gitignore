@@ -14,4 +14,4 @@ terraform-provider-libvirt
 venv/
 
 *.age
-debian-builder/mynet.pem
+/*/mynet.pem

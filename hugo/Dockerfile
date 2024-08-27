@@ -12,9 +12,11 @@ RUN apt-get update && \
     update-ca-certificates && \
     useradd --home /app/ -m appuser && \
     git config --system --add safe.directory "*" && \
-    printf "appuser ALL=NOPASSWD: /usr/bin/apt-get *" > /etc/sudoers.d/appuser && \
-    git config --global init.defaultBranch master && \
-    git config --global advice.detachedHead false
+    printf "appuser ALL=NOPASSWD: /usr/bin/apt-get *" > /etc/sudoers.d/appuser
 
 USER appuser
 WORKDIR /src/
+
+RUN git config --global init.defaultBranch master && \
+    git config --global advice.detachedHead false
+
