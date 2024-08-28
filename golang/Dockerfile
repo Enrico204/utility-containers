@@ -22,6 +22,8 @@ RUN apt-get update -yq && \
     apt-get install -yq docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
     apt-get clean && \
     useradd --home /app/ -m appuser && \
+    mkdir /out && \
+    chown appuser /out \
     update-ca-certificates && \
     git config --system --add safe.directory "*" && \
     printf "appuser ALL=NOPASSWD: /usr/bin/apt-get *" > /etc/sudoers.d/appuser
