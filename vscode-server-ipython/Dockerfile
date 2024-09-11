@@ -8,7 +8,13 @@ ENV USER=root
 
 RUN apt-get update -yq && \
     apt-get install -yq python3 python3-pip python3-venv libpcap-dev python3-ipykernel python3-nbformat \
+        apt-transport-https ssl-cert gnupg lsb-release \
         build-essential openssh-client git curl wget default-jdk ca-certificates zip tzdata jq libsqlite3-0 libsqlite3-dev sqlite3 vim && \
+    curl -1sLf 'https://dl.cloudsmith.io/public/wand/libwandio/cfg/setup/bash.deb.sh' | sudo -E bash && \
+    echo "deb https://pkg.caida.org/os/$(lsb_release -si|awk '{print tolower($0)}') $(lsb_release -sc) main" > /etc/apt/sources.list.d/caida.list && \
+    wget -O /etc/apt/trusted.gpg.d/caida.gpg https://pkg.caida.org/os/ubuntu/keyring.gpg && \
+    apt-get update -yq && \
+    apt-get install -yq bgpstream && \
     apt-get clean
 
 RUN wget https://go.dev/dl/go${GO_VERSION}.linux-$(dpkg --print-architecture).tar.gz -O /tmp/go.tar.gz && \
