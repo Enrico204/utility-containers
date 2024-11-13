@@ -31,6 +31,7 @@ ARG ASTERISK_VERSION
 COPY init.sh /init.sh
 
 RUN apk add --no-cache tini \
+    go-sendxmpp curl \
     asterisk=${ASTERISK_VERSION} \
     asterisk-curl=${ASTERISK_VERSION} \
     asterisk-fax=${ASTERISK_VERSION} \
