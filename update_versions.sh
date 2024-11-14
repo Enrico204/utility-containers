@@ -31,6 +31,8 @@ docker_version quay.io/buildah/stable > buildah-builder/BUILDAH.version
 docker_version docker.io/library/golang > golang/GO.version
 cp golang/GO.version vscode-server-ipython/GO.version
 
+docker_version docker.io/nodered/node-red > node-red/NODE-RED.version
+
 skopeo inspect "docker://docker.io/codercom/code-server" | jq -r ".RepoTags | .[]" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1 > vscode-server-ipython/VSCODE.version
 
 netsplit_repo_version selfcontained hugo amd64 > hugo/HUGO.version
