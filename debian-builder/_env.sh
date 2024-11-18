@@ -1,2 +1,2 @@
 DISTROS="bookworm trixie"
-VERSION=3
+VERSION=4
