@@ -500,44 +500,6 @@ jobs:
         if: always()
 
 
-  mediamtx:
-    runs-on: host-linux-amd64
-    container:
-      volumes:
-        - /var/lib/gitea-act-runner/.cache/:/var/lib/gitea-act-runner/.cache/
-    steps:
-      - name: Checking out the repository
-        run: |
-          echo "Cloning the repository"
-          git init
-          git remote add origin "https://git:${{ github.token }}@git.netsplit.it/${GITHUB_REPOSITORY}"
-          git fetch --depth 1 origin "$GITHUB_SHA"
-          git checkout FETCH_HEAD
-      - name: Set credentials for registries
-        run: |
-          mkdir -p "$HOME/.docker/"
-          export REGISTRY_AUTH_FILE=$HOME/.docker/auth.json
-
-          export NETSPLIT_CREDS=$(echo -n '${{ secrets.NETSPLIT_REGISTRY_USER }}:${{ secrets.NETSPLIT_REGISTRY_PASS }}' | base64 -w 0)
-          export DOCKER_CREDS=$(echo -n '${{ secrets.DOCKER_REGISTRY_USER }}:${{ secrets.DOCKER_REGISTRY_PASS }}' | base64 -w 0)
-          printf '{"auths": {"hub.netsplit.it": {"auth": "%s"}, "docker.io": {"auth": "%s"}}}' "$NETSPLIT_CREDS" "$DOCKER_CREDS" > "$HOME/.docker/auth.json"
-          printf "REGISTRY_AUTH_FILE=$REGISTRY_AUTH_FILE" >> $GITHUB_ENV
-      - name: Build and push image
-        run: >
-          podman run -it --rm --privileged
-          -v "$(pwd):/src/"
-          -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-          -v "$HOME/.docker/auth.json:/auth.json:ro"
-          -e REGISTRY_AUTH_FILE=/auth.json
-          --workdir /src/
-          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
-          /bin/bash -x build_images.sh "mediamtx"
-      - name: Cleanup
-        run: |
-          rm -f "$REGISTRY_AUTH_FILE"
-        if: always()
-
-
   node-red:
     runs-on: host-linux-amd64
     container:

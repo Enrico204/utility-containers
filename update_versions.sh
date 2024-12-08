@@ -41,7 +41,7 @@ netsplit_repo_version selfcontained hugo amd64 > hugo/HUGO.version
 
 docker_version docker.io/openapitools/openapi-generator-cli > openapi/OPENAPI.version
 
-github_version bluenviron/mediamtx > mediamtx/MEDIAMTX.version
+#github_version bluenviron/mediamtx > mediamtx/MEDIAMTX.version
 
 github_version amacneil/dbmate > postgres-dbmate/DBMATE.version
 docker_version docker.io/library/postgres > postgres-dbmate/POSTGRES.version
