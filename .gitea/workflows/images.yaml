@@ -47,7 +47,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "android-sdk"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -93,7 +93,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "aria2c"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -139,7 +139,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "aria2c-webui"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -185,7 +185,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "asterisk"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -231,7 +231,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "buildah-builder"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -277,7 +277,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "certbot-hetzner"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -323,7 +323,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "dmarc-analyzer"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -369,7 +369,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "dnsmasq"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -415,7 +415,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "eslint"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -461,7 +461,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "ffvnc"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -507,7 +507,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "golang"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -553,7 +553,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "hugo"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -599,7 +599,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "markdown-toc"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -645,7 +645,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "netdiag"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -691,7 +691,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "node-red"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -737,7 +737,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "openapi"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -783,7 +783,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "platformio"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -829,7 +829,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "postgres-dbmate"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -875,7 +875,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "qbittorrent"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -921,7 +921,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "rsyslog"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
@@ -967,7 +967,7 @@ jobs:
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "vscode-server-ipython"
 
-	  - name: Cleanup
+     - name: Cleanup
         run: |
           rm -f "$REGISTRY_AUTH_FILE"
         if: always()
