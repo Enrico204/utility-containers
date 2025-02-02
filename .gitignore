@@ -15,3 +15,4 @@ venv/
 
 *.age
 /*/mynet.pem
+*.swp
