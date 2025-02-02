@@ -62,7 +62,7 @@ cat >> images.yaml <<EOF
 #          hub.netsplit.it/utilities/buildah-builder:1.36.0-2
 #          /bin/bash -x build_images.sh "$img"
 
-     - name: Cleanup
+      - name: Cleanup
         run: |
           rm -f "\$REGISTRY_AUTH_FILE"
         if: always()
