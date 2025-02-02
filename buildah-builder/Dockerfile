@@ -7,4 +7,7 @@ RUN dnf install --setopt=install_weak_deps=False --best --nodocs -y skopeo make 
     dnf install -y --nodocs zfs && \
     dnf clean all
 
+COPY mynet.pem /etc/pki/ca-trust/source/anchors/mynet.pem
 COPY storage_zfs.conf /root/
+RUN update-ca-trust
+
