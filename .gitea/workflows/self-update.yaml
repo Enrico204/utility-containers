@@ -8,7 +8,10 @@ jobs:
   self-update-repo:
     runs-on: debian-bookworm
     container:
-      image: docker.io/library/alpine:3.21
+      image: hub.netsplit.it/utilities/ci-alpine:3.21.0-1
+      credentials:
+        username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
+        password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
     steps:
       - name: Installing dependencies
         run: |
