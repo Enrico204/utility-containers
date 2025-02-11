@@ -57,3 +57,6 @@ podman run -it --rm \
     /bin/sh -c "apk update > /dev/null && apk info asterisk | head -n 1 | cut -f 1 -d ' ' | cut -f 2- -d -" \
     > ASTERISK.version
 cd ..
+
+github_tag lucaslorentz/caddy-docker-proxy > caddy-docker/CADDY.version
+
