@@ -13,10 +13,6 @@ jobs:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
     steps:
-      - name: Installing dependencies
-        run: |
-          apk add --no-cache curl jq skopeo git bash openssh-client
-
       - name: Checking out the repository
         run: |
           git init
@@ -52,7 +48,7 @@ jobs:
           set +e
           git status
           git diff
-          git add versions/
+          git add .
           git diff --cached --exit-code
           if [ $? -eq 1 ]; then
             set -e
@@ -61,9 +57,9 @@ jobs:
             echo "No changes to commit, skipping"
           fi
 
-#      - name: Push the new commits
-#        run: |
-#          git push origin master
+      - name: Push the new commits
+        run: |
+          git push origin master
 
       - name: Cleanup
         run: |
