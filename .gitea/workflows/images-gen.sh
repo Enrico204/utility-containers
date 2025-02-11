@@ -11,9 +11,9 @@ cd "$(dirname "$0")"
 cat > images.yaml <<EOF
 name: BuildImages
 on:
-#  push:
-#    branches:
-#      - master
+  push:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
