@@ -1,0 +1,69 @@
+name: SelfUpdate
+on:
+  #schedule:
+  #  - cron: '0 2 1 * *'
+  workflow_dispatch:
+
+jobs:
+  self-update-repo:
+    runs-on: debian-bookworm
+    container:
+      image: docker.io/library/alpine:3.21
+    steps:
+      - name: Installing dependencies
+        run: |
+          apk add --no-cache curl jq skopeo git bash openssh-client
+
+      - name: Checking out the repository
+        run: |
+          git init
+          git remote add origin "https://git:${{ github.token }}@git.netsplit.it/${GITHUB_REPOSITORY}"
+          git fetch --depth 1 origin "$GITHUB_SHA"
+          git checkout FETCH_HEAD
+
+      - name: Set credentials
+        run: |
+          echo "${{ secrets.REPO_SSH_PRIVATE_KEY }}" | base64 -d > ssh_private_key
+          chmod 0600 ssh_private_key
+          eval $(ssh-agent)
+          ssh-add ssh_private_key
+          rm -f ssh_private_key
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+          echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
+          mkdir -p ~/.ssh
+          ssh-keyscan git.netsplit.it > ~/.ssh/known_hosts
+          git config --global user.name "Gitea Actions"
+          git config --global user.email "gitea@netsplit.it"
+
+      - name: Switch to latest commit and unshallow
+        run: |
+          git remote set-url origin git@git.netsplit.it:${{ github.repository }}.git
+          git fetch --unshallow
+          git checkout master
+
+      - name: Update external versions
+        run: bash update_versions.sh
+
+      - name: Commit the result
+        run: |
+          set +e
+          git status
+          git diff
+          git add versions/
+          git diff --cached --exit-code
+          if [ $? -eq 1 ]; then
+            set -e
+            git commit -m "Auto-update versions"
+          else
+            echo "No changes to commit, skipping"
+          fi
+
+#      - name: Push the new commits
+#        run: |
+#          git push origin master
+
+      - name: Cleanup
+        run: |
+          ssh-add -D
+          ssh-agent -k
+        if: always()
