@@ -23,6 +23,12 @@ netsplit_repo_version() {
 ' | grep -vE '^$' | sort -V | tail -n 1
 }
 
+alpine_repo_version() {
+	VERSION=$1
+	PACKAGE=$2
+	curl -s "https://git.alpinelinux.org/aports/plain/main/${PACKAGE}/APKBUILD?h=${VERSION}-stable" | grep -E 'pkgver=|pkgrel=' | cut -f 2 -d = | tr '\n' ' ' | sed 's/ /-r/' | tr -d ' '
+}
+
 
 docker_version quay.io/buildah/stable > buildah-builder/BUILDAH.version
 
@@ -52,10 +58,11 @@ docker_version ghcr.io/eclipse-theia/theia-blueprint/theia-ide > theia-server-ip
 
 cd asterisk
 source _env.sh
-podman run -it --rm \
-    docker.io/library/alpine:${ALPINE_VERSION} \
-    /bin/sh -c "apk update > /dev/null && apk info asterisk | head -n 1 | cut -f 1 -d ' ' | cut -f 2- -d -" \
-    > ASTERISK.version
+alpine_repo_version ${ALPINE_VERSION} asterisk > ASTERISK.version
+#podman run -it --rm \
+#    docker.io/library/alpine:${ALPINE_VERSION} \
+#    /bin/sh -c "apk update > /dev/null && apk info asterisk | head -n 1 | cut -f 1 -d ' ' | cut -f 2- -d -" \
+#    > ASTERISK.version
 cd ..
 
 github_tag lucaslorentz/caddy-docker-proxy > caddy-docker/CADDY.version
