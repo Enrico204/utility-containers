@@ -34,9 +34,9 @@ for distro in $DISTROS; do
 		buildah manifest create $IMAGE_FULL_NAME
 
 		buildah bud --manifest $IMAGE_FULL_NAME --arch amd64              -f Dockerfile.$distro       -t "$IMAGE_FULL_NAME"-amd64
-		buildah bud --manifest $IMAGE_FULL_NAME --arch arm64 --variant v8 -f Dockerfile.$distro       -t "$IMAGE_FULL_NAME"-arm64
-		buildah bud --manifest $IMAGE_FULL_NAME --arch arm   --variant v7 -f Dockerfile.$distro       -t "$IMAGE_FULL_NAME"-armv7
-		buildah bud --manifest $IMAGE_FULL_NAME --arch arm   --variant v5 -f Dockerfile.$distro.armel -t "$IMAGE_FULL_NAME"-armv5
+		#buildah bud --manifest $IMAGE_FULL_NAME --arch arm64 --variant v8 -f Dockerfile.$distro       -t "$IMAGE_FULL_NAME"-arm64
+		#buildah bud --manifest $IMAGE_FULL_NAME --arch arm   --variant v7 -f Dockerfile.$distro       -t "$IMAGE_FULL_NAME"-armv7
+		#buildah bud --manifest $IMAGE_FULL_NAME --arch arm   --variant v5 -f Dockerfile.$distro.armel -t "$IMAGE_FULL_NAME"-armv5
 
 		# Push manifest
 		buildah manifest push --all --format=docker "containers-storage:${IMAGE_FULL_NAME}" "docker://${IMAGE_FULL_NAME}"
