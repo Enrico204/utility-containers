@@ -19,6 +19,9 @@ FROM scratch
 
 EXPOSE 80 443
 
+ENV XDG_CONFIG_HOME /config
+ENV XDG_DATA_HOME /data
+
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /caddy /
 
