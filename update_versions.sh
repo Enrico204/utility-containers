@@ -26,7 +26,8 @@ netsplit_repo_version() {
 alpine_repo_version() {
 	VERSION=$1
 	PACKAGE=$2
-	curl -s "https://git.alpinelinux.org/aports/plain/main/${PACKAGE}/APKBUILD?h=${VERSION}-stable" | grep -E 'pkgver=|pkgrel=' | cut -f 2 -d = | tr '\n' ' ' | sed 's/ /-r/' | tr -d ' '
+	#curl -s "https://git.alpinelinux.org/aports/plain/main/${PACKAGE}/APKBUILD?h=${VERSION}-stable" | grep -E 'pkgver=|pkgrel=' | cut -f 2 -d = | tr '\n' ' ' | sed 's/ /-r/' | tr -d ' '
+	curl -s "https://gitlab.alpinelinux.org/alpine/aports/-/raw/${VERSION}-stable/main/${PACKAGE}/APKBUILD" | grep -E 'pkgver=|pkgrel=' | cut -f 2 -d = | tr '\n' ' ' | sed 's/ /-r/' | tr -d ' '
 }
 
 
