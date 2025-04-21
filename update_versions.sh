@@ -66,6 +66,6 @@ alpine_repo_version ${ALPINE_VERSION} asterisk > ASTERISK.version
 #    > ASTERISK.version
 cd ..
 
-#github_tag lucaslorentz/caddy-docker-proxy > caddy-docker/CADDY.version
-github_tag caddyserver/caddy > caddy-docker/CADDY.version
+github_tag lucaslorentz/caddy-docker-proxy > caddy-docker/CADDY.version
+#github_tag caddyserver/caddy > caddy-docker/CADDY.version
 
