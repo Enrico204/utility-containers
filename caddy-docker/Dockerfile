@@ -12,9 +12,7 @@ ARG CADDY_DOCKER_VERSION
 RUN CGO_ENABLED=0 GOOS=linux \
     xcaddy build v$CADDY_VERSION \
     --output /caddy \
-    --with github.com/lucaslorentz/caddy-docker-proxy/v2@v$CADDY_DOCKER_VERSION \
-	--with github.com/caddy-dns/hetzner \
-	--with github.com/caddy-dns/bunny
+    --with github.com/lucaslorentz/caddy-docker-proxy/v2@v$CADDY_DOCKER_VERSION
 
 
 FROM scratch
