@@ -10,7 +10,7 @@ jobs:
   android-sdk:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -56,7 +56,7 @@ jobs:
   aria2c:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -102,7 +102,7 @@ jobs:
   aria2c-webui:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -148,7 +148,7 @@ jobs:
   asterisk:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -194,7 +194,7 @@ jobs:
   buildah-builder:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -240,7 +240,7 @@ jobs:
   caddy-docker:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -286,7 +286,7 @@ jobs:
   certbot-hetzner:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -332,7 +332,7 @@ jobs:
   dmarc-analyzer:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -378,7 +378,7 @@ jobs:
   dnsmasq:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -424,7 +424,7 @@ jobs:
   eslint:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -470,7 +470,7 @@ jobs:
   ffvnc:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -516,7 +516,7 @@ jobs:
   golang:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -562,7 +562,7 @@ jobs:
   hugo:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -608,7 +608,7 @@ jobs:
   markdown-toc:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -654,7 +654,7 @@ jobs:
   netdiag:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -700,7 +700,7 @@ jobs:
   node-red:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -746,7 +746,7 @@ jobs:
   openapi:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -792,7 +792,7 @@ jobs:
   platformio:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -838,7 +838,7 @@ jobs:
   postgres-dbmate:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -884,7 +884,7 @@ jobs:
   qbittorrent:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -930,7 +930,7 @@ jobs:
   rsyslog:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -976,7 +976,7 @@ jobs:
   vscode-server-ipython:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -1022,7 +1022,7 @@ jobs:
   ci-alpine:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}
@@ -1068,7 +1068,7 @@ jobs:
   ci-debian:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: ${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: ${{ secrets.NETSPLIT_REGISTRY_PASS }}

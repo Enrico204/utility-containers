@@ -25,7 +25,7 @@ cat >> images.yaml <<EOF
   ${img}:
     runs-on: privileged
     container:
-      image: hub.netsplit.it/utilities/buildah-builder:1.37.3-3
+      image: hub.netsplit.it/utilities/buildah-builder:1.40.1-3
       credentials:
         username: \${{ secrets.NETSPLIT_REGISTRY_USER }}
         password: \${{ secrets.NETSPLIT_REGISTRY_PASS }}
