@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.24 AS builder
+FROM docker.io/library/golang:1.25 AS builder
 
 RUN apt-get update -yq && \
 	apt-get install -qy debian-keyring debian-archive-keyring apt-transport-https ca-certificates curl && \
