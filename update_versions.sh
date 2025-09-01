@@ -46,8 +46,6 @@ netsplit_repo_version selfcontained hugo amd64 > hugo/HUGO.version
 # netsplit_repo_version selfcontained pandoc amd64 > hugo-pandoc/PANDOC.version
 # netsplit_repo_version selfcontained plantuml all > hugo-pandoc/PLANTUML.version
 
-docker_version docker.io/openapitools/openapi-generator-cli > openapi/OPENAPI.version
-
 #github_version bluenviron/mediamtx > mediamtx/MEDIAMTX.version
 
 github_version amacneil/dbmate > postgres-dbmate/DBMATE.version
