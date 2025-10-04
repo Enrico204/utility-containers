@@ -1,4 +1,4 @@
-FROM docker.io/library/debian:trixie-backports
+FROM docker.io/library/debian:trixie
 
 COPY *.sh /tmp/
 RUN apt-get update -yq && \

@@ -1,4 +1,4 @@
-FROM docker.io/library/debian:bookworm-backports
+FROM docker.io/library/debian:bookworm
 
 COPY *.sh /tmp/
 RUN apt-get update -yq && \

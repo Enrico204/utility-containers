@@ -1,4 +1,4 @@
-FROM docker.io/arm32v5/debian:bookworm-backports
+FROM docker.io/arm32v5/debian:bookworm
 
 COPY *.sh /tmp/
 RUN apt-get update -yq && \
