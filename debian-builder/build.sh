@@ -42,7 +42,8 @@ for distro in $DISTROS; do
 		buildah manifest push --all --format=docker "containers-storage:${IMAGE_FULL_NAME}" "docker://${IMAGE_FULL_NAME}"
 
 		# Push tags for specific architectures (workaround docker registry bug)
-		for arch in amd64 arm64 armv7 armv5; do
+		#for arch in amd64 arm64 armv7 armv5; do
+		for arch in amd64; do
 			buildah push "${IMAGE_FULL_NAME}-${arch}"
 		done
 	fi
